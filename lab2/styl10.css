@@ -1,0 +1,41 @@
+#menu {
+  border-style: outset;
+  border-color: grey;
+  border-width: 3px;
+  position: static;
+  background-color: #e5e5ff;
+  margin-left: 100px;
+  margin-right: 100px;
+  text-align: center;
+  padding: 3px;
+}
+
+#tresc {
+  margin-left: 100px;
+  margin-right: 100px;
+  text-align: justify;
+}
+
+.el_menu :link {
+  text-decoration: none;
+  border-style: outset;
+  border-width: 1px;
+  color: maroon;
+  border-color: lightgrey;
+}
+
+.el_menu :hover {
+  text-decoration: none;
+  border-style: inset;
+  border-width: 1px;
+  color: maroon;
+  background-color: white;
+
+  border-color: lightgrey;
+}
+
+.el_menu :visited {
+  color: maroon;
+  border-color: lightgrey;
+}
+

@@ -1,0 +1,11 @@
+ul li {
+  list-style-image: url("red4.gif");
+}
+
+ul li ul li {
+  list-style-image: url("green4.gif");
+}
+
+ul li ul li ul li {
+  list-style-image: url("blue4.gif");
+}

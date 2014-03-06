@@ -1,0 +1,12 @@
+.A {
+	position: relative;
+	left: 20px;
+}
+
+.B {
+	position: relative;
+	top: -25px;
+	left: 25px;
+}
+
+* { font-size: large; }
