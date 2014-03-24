@@ -1,0 +1,111 @@
+@color: #757575;
+
+@belka: lighten(@color, 10%);
+@topAndMenu: lighten(@color, 40%);
+@okno: darken(@color, 15%);
+@tresc: lighten(@color, 50%);
+
+body {
+  padding: 30px;
+  background: @okno;
+}
+
+#menu {
+  float:left;
+  margin-left: 10px;
+}
+
+.el_menu :link {
+  text-decoration: none;
+  border-style: outset;
+  border-width: 1px;
+  color: black;
+  border-color: grey;
+  display:block;
+  width: 140px;
+  text-align: center;
+  background-color: lighten(@color, 45%);
+}
+
+.el_menu :hover {
+  text-decoration: none;
+  border-style: inset;
+  border-width: 1px;
+  color: black;
+  border-color: grey;
+  display:block;
+  width: 140px;
+  text-align: center;
+  background-color: lighten(@color, 50%);
+}
+
+.el_menu :visited {
+  color: black;
+  border-color: grey;
+}
+
+#naglowek {
+  background-color: @topAndMenu;
+  text-align: center;
+  padding-top: 15px;
+}
+
+#tresc {
+  position: relative;
+  border-left-style: solid;
+  border-left-color: black;
+  border-left-width: 1px;
+  margin-left: 170px;
+  padding: 20px;
+  margin-top: 0px;
+  background-color: @tresc;
+}
+
+#belka {
+  background-color: @belka; 
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: black;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: black;
+  padding: 3px;
+  margin: 0;
+}
+
+#stopka {
+  background-color: @belka; 
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: black;
+  padding: 3px;
+  color: lighten(black,20%);
+  font-size: 21px;
+  text-align: center;
+  margin: 0;
+}
+
+#menu_i_tresc {
+  background-color: @topAndMenu;
+  margin-top: 0px;
+  padding: 0;
+}
+
+#okno {
+  width: 900px;
+  background: @okno;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
+
+
+
+h4 {
+  font-size: 21px;
+  font-color: grey;
+  text-align: center;
+  padding: 0;
+  margin: 5;
+}
+
