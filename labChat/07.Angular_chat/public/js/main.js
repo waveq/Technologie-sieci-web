@@ -24,6 +24,9 @@ app.controller('chatCtrlr', ['$scope', 'socket',
             return $scope.nick;
         }
         
+        var prepareMessageWithNick = function(nick, message) {
+            return nick + ': ' + message;
+        }
 
         $scope.nick = "Nick";
         $scope.rooms = [];
@@ -38,6 +41,7 @@ app.controller('chatCtrlr', ['$scope', 'socket',
         $scope.changeRoom = function(room){
             $scope.msgs = [];
             socket.emit('change room', room );
+            $scope.roomChosen = true;
             alert("Przełączyłeś się na pokój " + room);
 
         };
@@ -45,29 +49,35 @@ app.controller('chatCtrlr', ['$scope', 'socket',
 
         $scope.sendMsg = function () {
             if ($scope.msg && $scope.msg.text) {
-                socket.emit('send msg', safe_tags_replace(getNick() +': '+ $scope.msg.text.substring(0, 30)));
+                socket.emit('send msg', safe_tags_replace(prepareMessageWithNick(getNick(), $scope.msg.text)));
                 $scope.msg.text = '';
             }
         };
+
         socket.on('connect', function () {
             $scope.connected = true;
             $scope.$digest();
         });
+
         socket.on('history', function (data) {
             $scope.msgs = data;
             $scope.$digest();
         });
+
         socket.on('roomHistory', function (data) {
             $scope.rooms = data;
             $scope.$digest();
         });
+
         socket.on('rec msg', function (data) {
             $scope.msgs.unshift(data);
             $scope.$digest();
         });
-        socket.on('rec room', function (data) {
-            $scope.rooms.unshift(data);
+
+        socket.on('show rooms', function(data){
+            $scope.rooms = data;
             $scope.$digest();
         });
+
     }
 ]);

@@ -22,7 +22,7 @@
       <div data-ng-repeat="msg in msgs track by $index">{{msg}}</div>
     </div>
     <form action="" data-ng-submit="sendMsg()">
-      <input type="text" placeholder="Treść wiadomości" data-ng-model="msg.text" maxlength="30">
+      <input type="text" placeholder="Treść wiadomości" data-ng-show="roomChosen" data-ng-model="msg.text" maxlength="30">
     </form>
 
     <input type="text" placeholder="Nick" data-ng-model="nick" maxlength="20">
