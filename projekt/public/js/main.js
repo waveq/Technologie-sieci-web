@@ -6,39 +6,35 @@ app.factory('socket', function () {
 });
 
 app.controller('appCtrlr', ['$scope', 'socket',
+
+
+
+
+
     function ($scope, socket) {
-        var tagsToReplace = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;'
-        };
-        var replaceTag = function (tag) {
-            return tagsToReplace[tag] || tag;
-        };
-        var safe_tags_replace = function (str) {
-            return str.replace(/[&<>]/g, replaceTag);
-        };
-        $scope.msgs = [];
-        $scope.loggedIn = true;
         $scope.connected = false;
-        $scope.sendMsg = function () {
-            if ($scope.msg && $scope.msg.text) {
-                socket.emit('send msg', safe_tags_replace($scope.msg.text.substring(0, 20)));
-                $scope.msg.text = '';
-            }
-        };
-        socket.on('connect', function () {
-            $scope.loggedIn = false;
-            $scope.connected = true;
-            $scope.$digest();
+
+        var dupa = function() {
+        var myUrl = "/loggedIn"
+        $.ajax({
+            url: myUrl,
+            type: 'GET',
+            success: function(myJson) {
+                $.each(myJson, function() {
+                    console.log("user: "+myJson.user);
+                    if(myJson.user) {
+                        $scope.loggedIn = true;
+                        $scope.$digest();
+                        console.log("scope: "+$scope.loggedIn);
+                    }
+                }); 
+            } 
         });
-        socket.on('history', function (data) {
-            $scope.msgs = data;
-            $scope.$digest();
-        });
-        socket.on('rec msg', function (data) {
-            $scope.msgs.unshift(data);
-            $scope.$digest();
-        });
+        }
+        dupa();       
+    
     }
+
+
+
 ]);

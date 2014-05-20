@@ -81,3 +81,14 @@ app.controller('chatCtrlr', ['$scope', 'socket',
 
     }
 ]);
+
+
+    // function() {
+    //     var myUrl = "/loggedIn"
+    //     $.ajax({
+    //         url: myUrl,
+    //         type: 'GET',
+    //         success: function(myJson) {
+    //             var first=myJson[0];
+    //             console.log("first: "+first);
+    //         }

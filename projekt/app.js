@@ -51,6 +51,7 @@ app.use(passport.session());
 
 
 var history = [];
+var loggedIn = false;
 
 app.use(express.static("public"));
 app.use(express.static("bower_components"));
@@ -74,9 +75,22 @@ app.post('/login',
         failureRedirect: '/login'
     }),
     function (req, res) {
+    	loggedIn = true;
         res.redirect('/');
     }
 );
+
+// WYLOGOWYWANIE
+app.get('/logout', function (req, res) {
+    console.log('Wylogowanie...')
+    req.logout();
+    loggedIn = false;
+    res.redirect('/');
+});
+
+app.get('/loggedIn', function (req, res) {
+    res.json({ user: loggedIn })
+});
 
 httpServer.listen(3000, function () {
     console.log('Serwer HTTP działa na pocie 3000');
