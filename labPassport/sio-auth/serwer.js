@@ -47,19 +47,43 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('public'));
 
+// app.get('/', function (req, res) {
+//     var body = '<html><body>';
+//     var username;
+//     var page = "public/authorized.html"
+//     if (req.user) {
+//         console.log("##if##");
+//         username = req.user.username;
+//         body += '<p>Jesteś zalogowany jako „' + username + '”</p>';
+//         body += '<a href="/logout">Wyloguj</a>'
+//     body += '</body></html>'
+//         res.send(body);
+//     } else {
+//       console.log("##else##");
+//     res.sendfile(page, {root: __dirname })
+//     }
+//     body += '</body></html>'
+
+// });
+
 app.get('/', function (req, res) {
     var body = '<html><body>';
     var username;
+    var page = "public/authorized.html"
     if (req.user) {
+    	
         username = req.user.username;
-        body += '<p>Jesteś zalogowany jako „' + username + '”</p>';
-        body += '<a href="/logout">Wyloguj</a>'
+		res.sendfile(page, {root: __dirname })
     } else {
         body += '<a href="/login">Zaloguj</a>'
+    	body += '</body></html>'
+    	res.send(body);
     }
-    body += '</body></html>'
-    res.send(body);
+
 });
+
+
+
 
 app.get('/login', function (req, res) {
     var body = '<html><body>'
