@@ -31,7 +31,12 @@ app.controller('appCtrlr', ['$scope', 'socket',
             } 
         });
         }
-        dupa();       
+        dupa();   
+
+        socket.on('connect', function () {
+            $scope.connected = true;
+            $scope.$digest();
+        });    
     
     }
 

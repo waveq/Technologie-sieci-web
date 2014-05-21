@@ -6,7 +6,11 @@ var httpServer = require("http").createServer(app);
 var socketio = require("socket.io");
 var io = socketio.listen(httpServer);
 
-// XXX 
+// REDIS
+var redis = require("redis"),
+    client = redis.createClient();
+
+// PASSPORT
 var connect = require('connect');
 var sessionSecret = 'wielkiSekret44';
 var sessionKey = 'connect.sid';
@@ -49,25 +53,21 @@ app.use(express.session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-var history = [];
 var loggedIn = false;
 
 app.use(express.static("public"));
 app.use(express.static("bower_components"));
 
+
+// SOCKET
 io.sockets.on('connection', function (socket) {
-	socket.on('send msg', function (data) {
-		history.unshift(data);
-		io.sockets.emit('rec msg', data);
-	});
 });
 
+// STRONA LOGOWANIA
 app.get('/login', function (req, res) {
 	var loginPage = "public/login.html";
 	res.sendfile(loginPage, {root: __dirname })
 });
-
 
 // LOGOWANIE
 app.post('/login',
@@ -75,6 +75,7 @@ app.post('/login',
         failureRedirect: '/login'
     }),
     function (req, res) {
+    	redisSet();
     	loggedIn = true;
         res.redirect('/');
     }
@@ -88,8 +89,34 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+// SPRAWDZ CZY USER ZALOGOWANY
 app.get('/loggedIn', function (req, res) {
+	redisGet();
     res.json({ user: loggedIn })
+
+});
+
+// FUNKCJA USTAWIAJACA WARTOSC DO BAZY REDISA
+var redisSet = function () {
+    client.set("mój klucz", "Ahoj przygodo!", function (err, reply) {
+        console.log("REPLY SET: "+reply.toString());
+    });
+}
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
+var redisGet = function () {
+    client.get("mój klucz", function (err, reply) {
+        if (reply) {
+	        console.log("REPLY GET: "+reply.toString());
+	     
+	    } else {
+        	console.log('no reply');
+      
+        }
+    });
+};
+
+client.on("error", function (err) {
+    console.log("Error " + err);
 });
 
 httpServer.listen(3000, function () {

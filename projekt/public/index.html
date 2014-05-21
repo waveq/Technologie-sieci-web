@@ -48,8 +48,15 @@
 
     <div class="jumbotron">
   <h1>Witaj na stronie głównej</h1>
-  <p>Będą tu jakieś pierdoły, a na razie jest diodka która informuje czy jesteś połączony z socketem</p>
-
+  <p>Będą tu jakieś pierdoły, a na razie jest diodka która informuje czy jesteś połączony z socketem:</p>
+  <p><div data-ng-hide="connected" class="bulb">
+      <img src="img/bullet_red.png"> trwa łączenie…
+    </div>
+    <div data-ng-show="connected" class="bulb">
+      <img src="img/bullet_green.png"> połączono
+    </div>
+    </div>
+    </p>
 </div>
 
   <!-- <div data-ng-controller="chatCtrlr">
