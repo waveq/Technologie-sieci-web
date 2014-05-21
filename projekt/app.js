@@ -30,17 +30,32 @@ passport.deserializeUser(function (obj, done) {
 });
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        if ((username === 'admin') && (password === 'tajne')) {
+	function (username, password, done) {
+		console.log("Wysyłam: "+username + " " + password);
+		var bool = redisGet(username, password);
+		console.log("bool: " +bool);
+        if (bool) {
             console.log("Udane logowanie...");
             return done(null, {
                 username: username,
                 password: password
             });
         } else {
+        	console.log("Nieudane logowanie...");
             return done(null, false);
         }
     }
+    // function (username, password, done) {
+    //     if ((username === 'admin') && (password === 'tajne')) {
+    //         console.log("Udane logowanie...");
+    //         return done(null, {
+    //             username: username,
+    //             password: password
+    //         });
+    //     } else {
+    //         return done(null, false);
+    //     }
+    // }
 ));
 
 app.use(express.cookieParser());
@@ -69,17 +84,27 @@ app.get('/login', function (req, res) {
 	res.sendfile(loginPage, {root: __dirname })
 });
 
+// STRONA REJESTRACJI
+app.get('/signup', function (req, res) {
+	var signupPage = "public/signup.html";
+	res.sendfile(signupPage, {root: __dirname })
+});
+
 // LOGOWANIE
 app.post('/login',
     passport.authenticate('local', {
         failureRedirect: '/login'
     }),
     function (req, res) {
-    	redisSet();
     	loggedIn = true;
         res.redirect('/');
     }
 );
+// REJESTRACJA
+app.post('/signup', function (req, res) {
+    redisSet(req.body.username, req.body.password);
+    res.redirect('/');
+});
 
 // WYLOGOWYWANIE
 app.get('/logout', function (req, res) {
@@ -91,26 +116,26 @@ app.get('/logout', function (req, res) {
 
 // SPRAWDZ CZY USER ZALOGOWANY
 app.get('/loggedIn', function (req, res) {
-	redisGet();
     res.json({ user: loggedIn })
 
 });
 
 // FUNKCJA USTAWIAJACA WARTOSC DO BAZY REDISA
-var redisSet = function () {
-    client.set("mój klucz", "Ahoj przygodo!", function (err, reply) {
+var redisSet = function (username, password) {
+	console.log("Dodaje do bazy uzytkownika: "+username +" " + password);
+    client.set(username, password, function (err, reply) {
         console.log("REPLY SET: "+reply.toString());
     });
 }
 // FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
-var redisGet = function () {
-    client.get("mój klucz", function (err, reply) {
+var redisGet = function (username, password) {
+    return client.get(username, function (err, reply) {
         if (reply) {
 	        console.log("REPLY GET: "+reply.toString());
-	     
+	        return true;
 	    } else {
         	console.log('no reply');
-      
+        	return false; 
         }
     });
 };
