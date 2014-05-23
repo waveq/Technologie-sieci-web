@@ -16,6 +16,7 @@
 </head>
 
 <body data-ng-app="czatApka">
+<div data-ng-controller="appCtrlr">
   <nav class="navbar navbar-inverse " role="navigation">
 
     <div class="container-fluid">
@@ -39,7 +40,9 @@
   <div class="jumbotron">
     <h1>Rejestracja</h1>
     <form action="/signup" method="post">
-      <input type="text" placeholder="login" class="form-control" name="username"/><br/>
+      <input type="text" placeholder="login" ng-change="change()" data-ng-model="user.username"
+       class="form-control" name="username"/>
+       <span data-ng-show="userExist" style="color:red">Użytkownik o takim loginie już istnieje</span><br />
       <input type="password" placeholder="hasło" class="form-control" name="password"/><br />
       <input class="btn btn-primary btn-lg" type="submit" value="Ding"/>
     </form>
@@ -47,7 +50,7 @@
   </div>
 
 
-
+</div>
 </body>
 
 </html>

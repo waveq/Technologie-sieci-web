@@ -103,6 +103,20 @@ app.post('/signup', function(req, res) {
 	res.redirect('/');
 });
 
+// SPRAWDZ CZY TAKI USERNAME JEST W BAZIE
+app.get('/checkIfUserExists/:username', function(req, res) {
+ 	var username = req.params.username;
+ 	console.log("username : ");
+	console.log(username);
+
+	redisGet(username).then(function(result) {
+		res.json({exist: result});
+
+	})
+
+	
+});
+
 // WYLOGOWYWANIE
 app.get('/logout', function(req, res) {
 	console.log('Wylogowanie...')
@@ -124,7 +138,7 @@ var redisSet = function(username, password) {
 			console.log("REPLY SET: " + reply.toString());
 		});
 	}
-	// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
 var redisGet = function(username, password) {
 	var deferred = Q.defer();
 	client.get(username, function(err, reply) {
@@ -134,7 +148,6 @@ var redisGet = function(username, password) {
 		} else {
 			console.log('no reply');
 			deferred.resolve(false);
-
 		}
 	});
 	return deferred.promise;
