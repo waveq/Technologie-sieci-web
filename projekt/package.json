@@ -15,6 +15,7 @@
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "passport.socketio": "^3.0.1",
-    "redis": "0.8.3"
+    "redis": "0.8.3",
+    "q":"1.0.1"
   }
 }

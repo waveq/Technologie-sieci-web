@@ -13,6 +13,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
     function ($scope, socket) {
         $scope.connected = false;
+        $scope.username = "";
 
         var dupa = function() {
         var myUrl = "/loggedIn"
@@ -21,11 +22,11 @@ app.controller('appCtrlr', ['$scope', 'socket',
             type: 'GET',
             success: function(myJson) {
                 $.each(myJson, function() {
-                    console.log("user: "+myJson.user);
-                    if(myJson.user) {
+                    $scope.username = myJson.username;
+                    console.log("user:",myJson.username);
+                    if(myJson.username) {
                         $scope.loggedIn = true;
                         $scope.$digest();
-                        console.log("scope: "+$scope.loggedIn);
                     }
                 }); 
             } 
