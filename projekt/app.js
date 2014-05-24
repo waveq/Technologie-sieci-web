@@ -33,7 +33,7 @@ passport.use(new LocalStrategy(
 	function(username, password, done) {
 		console.log("Wysyłam: " + username + " " + password);
 
-		redisGet(username, password).then(function(result) {
+		redisGetPass(username, password).then(function(result) {
 			console.log("THEN");
 			console.log(result);
 
@@ -99,22 +99,20 @@ app.post('/login',
 );
 // REJESTRACJA
 app.post('/signup', function(req, res) {
-	redisSet(req.body.username, req.body.password);
+	console.log("#########PASSWORD#########");
+	var passwd = req.body.password[0];
+	console.log(passwd);
+
+	redisSet(req.body.username, req.body.password[0]);
 	res.redirect('/');
 });
 
 // SPRAWDZ CZY TAKI USERNAME JEST W BAZIE
 app.get('/checkIfUserExists/:username', function(req, res) {
  	var username = req.params.username;
- 	console.log("username : ");
-	console.log(username);
-
 	redisGet(username).then(function(result) {
 		res.json({exist: result});
-
 	})
-
-	
 });
 
 // WYLOGOWYWANIE
@@ -138,13 +136,29 @@ var redisSet = function(username, password) {
 			console.log("REPLY SET: " + reply.toString());
 		});
 	}
-// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
-var redisGet = function(username, password) {
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA BEZ HASLA
+var redisGet = function(username) {
 	var deferred = Q.defer();
 	client.get(username, function(err, reply) {
 		if (reply) {
 			console.log("REPLY GET: " + reply.toString());
 			deferred.resolve(true);
+		} else {
+			console.log('no reply');
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA Z HASLEM
+var redisGetPass = function(username, password) {
+	var deferred = Q.defer();
+	client.get(username, function(err, reply) {
+		if (reply) {
+			if (reply.toString() === password)
+				deferred.resolve(true);
+			else 
+				deferred.resolve(false);
 		} else {
 			console.log('no reply');
 			deferred.resolve(false);

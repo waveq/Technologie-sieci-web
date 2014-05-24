@@ -13,23 +13,33 @@ app.controller('appCtrlr', ['$scope', 'socket',
         $scope.username = "";
         $scope.userExist = false;
         $scope.passwordMatch = true;
-        $scope.buttonDisabled = false;
+        $scope.buttonDisabled = true;
 
 
         $scope.changePass = function () {
             $scope.passwordMatch = true;
-            $scope.buttonDisabled = false;
+            $scope.buttonDisabled = isDisabled();
 
             if($scope.user.password !== $scope.user.repeatPassword) {
                 $scope.passwordMatch = false;
-                $scope.buttonDisabled = true;
+                $scope.buttonDisabled = isDisabled();
                 $scope.$disgest();
             }
         }
+        var isDisabled = function () {
+            console.log("pass match: "+$scope.passwordMatch);
+            console.log("user exist : "+$scope.userExist);
+
+            if($scope.passwordMatch == true && $scope.userExist == false && $scope.user.password.length > 1) {
+                return false;
+            }
+            else 
+                return true;
+            }
 
         $scope.change = function () {
             $scope.userExist = false;
-            $scope.buttonDisabled = false;
+            $scope.buttonDisabled = isDisabled();
 
             console.log($scope.user.username);
             var myUrl="/checkIfUserExists/"+$scope.user.username;
@@ -41,7 +51,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     console.log(myJson.exist);
                     if(myJson.exist) {
                         $scope.userExist = true;
-                        $scope.buttonDisabled = true;
+                        $scope.buttonDisabled = isDisabled();
                         $scope.$digest();
                     }
                 }); 
