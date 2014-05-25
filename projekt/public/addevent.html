@@ -53,7 +53,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Wyświetl<b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li><a href="/showplaces">Miejsca</a></li>
-          <li><a href="/showevents">Wydarzenia</a></li>
+          <li><a href="#">Wydarzenia</a></li>
         </ul>
       </li>
     </ul>
@@ -63,7 +63,7 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-show="loggedIn">
-      <li ><a href="#">Zalogowano jako {{username}}</a></li>
+      <li ><a href="/showevents">Zalogowano jako {{username}}</a></li>
       <li><a href="/logout">Wyloguj</a></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -72,9 +72,20 @@
 
 
 <div class="jumbotron">
-  <h1>Dodane miejsca</h1>
+  <h1>Wydarzenie</h1>
+  <p>W tym miejscu możesz dodać wydarzenie</p>
 
-  <div data-ng-repeat="place in fullPlaces track by $index"><h2>{{place[0]}}</h2>Miasto: {{place[1]}}<br /> Ulica: {{place[2]}}<br /> Numer: {{place[3]}}<br /></h1></div>
+  <form action="/addEvent" method="post">
+    <input type="text" placeholder="Nazwa wydarzenia" ng-model="event.name" class="form-control" name="name"/>
+    <span data-ng-show="placeExist" style="color:red">Miejsce o takiej nazwie już istnieje</span><br />
+
+    Miejsce:
+   <select ng-model="place" ng-options="place for place in places" name="place"></select>
+<br /><br />
+    <input type="text" placeholder="Data" class="form-control" ng-model="event.date" name="date"/><br />
+    <input type="text" placeholder="Godzina" class="form-control" ng-model="event.time" name="time"/><br />
+    <input class="btn btn-primary btn-lg" type="submit" value="Dodaj"/>
+  </form>
 </div>
 </div>
 

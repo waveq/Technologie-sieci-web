@@ -102,9 +102,25 @@ app.get('/addplace', function(req, res) {
 	})
 });
 
+// STRONA DODAJ WYDARZENIE
+app.get('/addevent', function(req, res) {
+	var loginPage = "public/addevent.html";
+	res.sendfile(loginPage, {
+		root: __dirname
+	})
+});
+
 // STRONA POKAZ MIEJSCA
 app.get('/showplaces', function(req, res) {
 	var loginPage = "public/showplaces.html";
+	res.sendfile(loginPage, {
+		root: __dirname
+	})
+});
+
+// STRONA POKAZ WYDARZENIA
+app.get('/showevents', function(req, res) {
+	var loginPage = "public/showevents.html";
 	res.sendfile(loginPage, {
 		root: __dirname
 	})
@@ -142,7 +158,21 @@ app.post('/addPlace', function(req, res) {
 
 	redisSetPlace(name, city, street, number);
 	res.redirect('/showplaces');
+});
 
+// DODAWANIE WYDARZENIA
+app.post('/addEvent', function(req, res) {
+	var name = req.body.name;
+	var place = req.body.place;
+	var date = req.body.date;
+	var time = req.body.time;
+
+	redisGetPlacesByIndex("places",place).then(function(place) {
+		place = place.toString();
+
+		redisSetEvent(name, place, date, time);
+		res.redirect('/showevents');
+	});
 });
 
 // SPRAWDZ CZY TAKIE MIEJSCE JEST W BAZIE
@@ -221,7 +251,30 @@ var redisSetPlace = function(name, city, street, number) {
 			console.log("REPLY SET: " + reply.toString());
 		});
 
-	}
+}
+
+// FUNKCJA DODAJACA WYDARZENIE DO BAZY REDISA
+var redisSetEvent = function(name, place, date, time) {
+		console.log("Dodaje do bazy wydarzenie: " + name + " " + place + " " + date + " " + time);
+		var list = [name, place, date, time];
+
+		var multi = client.multi();
+
+		for (var i=0; i<list.length; i++) {
+    		multi.rpush(name, list[i]);
+		}
+
+		multi.exec(function(errors, results) {
+			console.log("REPLY SET: " + results.toString());
+		});
+
+		var multi1 = client.multi();
+
+		client.rpush("events", name, function(err, reply) {
+			console.log("REPLY SET: " + reply.toString());
+		});
+
+}
 
 // FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA BEZ HASLA
 var redisGetPlace = function(name) {
@@ -284,10 +337,25 @@ var redisGetPass = function(username, password) {
 	});
 	return deferred.promise;
 };
-// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA BEZ HASLA
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
 var redisGetPlaces = function(data) {
 	var deferred = Q.defer();
 	client.lrange(data, 0, 111, function(err, reply) {
+		if (reply) {
+			console.log("REPLY GET: " + reply.toString());
+			deferred.resolve(reply);
+		} else {
+			console.log('no reply');
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA PO INDEXIE
+var redisGetPlacesByIndex = function(data, index) {
+	var deferred = Q.defer();
+	client.lrange(data, index, index, function(err, reply) {
 		if (reply) {
 			console.log("REPLY GET: " + reply.toString());
 			deferred.resolve(reply);
