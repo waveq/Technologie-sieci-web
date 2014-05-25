@@ -11,43 +11,6 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
         $scope.connected = false;
         $scope.username = "";
-        $scope.userExist = false;
-        $scope.passwordMatch = true;
-        $scope.buttonDisabled = false;
-
-
-        $scope.changePass = function () {
-            $scope.passwordMatch = true;
-            $scope.buttonDisabled = false;
-
-            if($scope.user.password !== $scope.user.repeatPassword) {
-                $scope.passwordMatch = false;
-                $scope.buttonDisabled = true;
-                $scope.$disgest();
-            }
-        }
-
-        $scope.change = function () {
-            $scope.userExist = false;
-            $scope.buttonDisabled = false;
-
-            console.log($scope.user.username);
-            var myUrl="/checkIfUserExists/"+$scope.user.username;
-            $.ajax({
-            url: myUrl,
-            type: 'GET',
-            success: function(myJson) {
-                $.each(myJson, function() {
-                    console.log(myJson.exist);
-                    if(myJson.exist) {
-                        $scope.userExist = true;
-                        $scope.buttonDisabled = true;
-                        $scope.$digest();
-                    }
-                }); 
-            }});
-                
-        }
 
       var checkIfLoggedIn = function() {
             var myUrl = "/loggedIn"

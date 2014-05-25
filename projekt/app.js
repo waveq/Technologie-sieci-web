@@ -71,6 +71,8 @@ app.use(express.static("bower_components"));
 // SOCKET
 io.sockets.on('connection', function(socket) {});
 
+
+
 // STRONA LOGOWANIA
 app.get('/login', function(req, res) {
 	var loginPage = "public/login.html";
@@ -87,6 +89,22 @@ app.get('/signup', function(req, res) {
 	})
 });
 
+// STRONA DODAJ MIEJSCE
+app.get('/addplace', function(req, res) {
+	var loginPage = "public/addplace.html";
+	res.sendfile(loginPage, {
+		root: __dirname
+	})
+});
+
+// STRONA POKAZ MIEJSCA
+app.get('/showplaces', function(req, res) {
+	var loginPage = "public/showplaces.html";
+	res.sendfile(loginPage, {
+		root: __dirname
+	})
+});
+
 // LOGOWANIE
 app.post('/login',
 	passport.authenticate('local', {
@@ -99,12 +117,36 @@ app.post('/login',
 );
 // REJESTRACJA
 app.post('/signup', function(req, res) {
-	console.log("#########PASSWORD#########");
 	var passwd = req.body.password[0];
 	console.log(passwd);
 
-	redisSet(req.body.username, req.body.password[0]);
+	redisSetUser(req.body.username, req.body.password[0]);
 	res.redirect('/');
+});
+
+// DODAWANIE MIEJSCA
+app.post('/addPlace', function(req, res) {
+	var name = req.body.name;
+	var city = req.body.city;
+	var street = req.body.street;
+	var number = req.body.number;
+	console.log(name);
+	console.log(city);
+	console.log(street);
+	console.log(number);
+
+	redisSetPlace(name, city, street, number);
+	res.redirect('/showplaces');
+
+});
+
+// SPRAWDZ CZY TAKIE MIEJSCE JEST W BAZIE
+app.get('/checkIfPlaceExists/:name', function(req, res) {
+ 	var name = req.params.name;
+ 	console.log(name);
+	redisGetPlace(name).then(function(result) {
+		res.json({exist: result});
+	})
 });
 
 // SPRAWDZ CZY TAKI USERNAME JEST W BAZIE
@@ -129,17 +171,88 @@ app.get('/loggedIn', function(req, res) {
 	
 	res.json({username: sessionJSON.passport.user.username})
 });
-// FUNKCJA USTAWIAJACA WARTOSC DO BAZY REDISA
-var redisSet = function(username, password) {
+
+// POBIERZ WSZYSTKIE MIEJSCA
+app.get('/getAllPlaces', function(req, res) {
+	redisGetPlaces("places").then(function(places) {
+		res.json({lista: places});
+
+	});
+});
+
+app.get('/getSinglePlace/:place', function(req, res) {
+	var place = req.params.place;
+	redisGetSinglePlace(place).then(function(singlePlace) {
+		res.json({place: singlePlace});
+	});
+});
+
+
+// FUNKCJA USTAWIAJACA UZYTKOWNIKA DO BAZY REDISA
+var redisSetUser = function(username, password) {
 		console.log("Dodaje do bazy uzytkownika: " + username + " " + password);
 		client.set(username, password, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
 	}
-// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA BEZ HASLA
-var redisGet = function(username) {
+// FUNKCJA DODAJACA MIEJSCE DO BAZY REDISA
+var redisSetPlace = function(name, city, street, number) {
+		console.log("Dodaje do bazy miejsce: " + name + " " + city + " " + street + " " + number);
+		var list = [name, city, street, number];
+
+		var multi = client.multi();
+
+		for (var i=0; i<list.length; i++) {
+    		multi.rpush(name, list[i]);
+		}
+
+		multi.exec(function(errors, results) {
+			console.log("REPLY SET: " + results.toString());
+		});
+
+		var multi1 = client.multi();
+
+		client.rpush("places", name, function(err, reply) {
+			console.log("REPLY SET: " + reply.toString());
+		});
+
+	}
+
+// FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA BEZ HASLA
+var redisGetPlace = function(name) {
 	var deferred = Q.defer();
-	client.get(username, function(err, reply) {
+	client.lrange(name, 0, 0, function(err, reply) {
+		if (reply) {
+			if(reply.toString() === name)
+				deferred.resolve(true);
+			else 
+				deferred.resolve(false);
+		} else {
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
+// FUNKCJA POBIERAJACA JEDNO MIEJSCE <WARTOSC>
+var redisGetSinglePlace = function(name) {
+	var deferred = Q.defer();
+	client.lrange(name, 0, 3, function(err, reply) {
+		if (reply) {
+			console.log(reply);
+			deferred.resolve(reply);
+			
+		} else {
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA BEZ HASLA
+var redisGet = function(data) {
+	var deferred = Q.defer();
+	client.get(data, function(err, reply) {
 		if (reply) {
 			console.log("REPLY GET: " + reply.toString());
 			deferred.resolve(true);
@@ -159,6 +272,20 @@ var redisGetPass = function(username, password) {
 				deferred.resolve(true);
 			else 
 				deferred.resolve(false);
+		} else {
+			console.log('no reply');
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+// FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA BEZ HASLA
+var redisGetPlaces = function(data) {
+	var deferred = Q.defer();
+	client.lrange(data, 0, 111, function(err, reply) {
+		if (reply) {
+			console.log("REPLY GET: " + reply.toString());
+			deferred.resolve(reply);
 		} else {
 			console.log('no reply');
 			deferred.resolve(false);

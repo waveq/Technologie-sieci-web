@@ -6,7 +6,7 @@
   <title>MeetMe</title>
   <script src="/socket.io/socket.io.js"></script>
   <script src="angular/angular.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/addplace.js"></script>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -28,12 +28,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">MeetMe</a>
-    </div>  <!-- /.navbar header -->
+      <a class="navbar-brand" href="/">MeetMe</a>
+    </div>  <!-- /.navbar header
 
-<!-- COLLAPSE -->
+    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <!-- PO ZALOGOWANIU -->
     <ul class="nav navbar-nav" data-ng-show="loggedIn">
        <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dodaj<b class="caret"></b></a>
@@ -50,9 +49,6 @@
             </ul>
         </li>
     </ul>
-    <!-- /.PO ZALOGOWANIU -->
-
-    <!-- NAVBAR RIGHT -->
       <ul class="nav navbar-nav navbar-right" data-ng-hide="loggedIn">
         <li><a href="/login">Zaloguj</a></li>
         <li><a href="/signup">Zarejestruj się</a></li>
@@ -62,24 +58,26 @@
         <li ><a href="#">Zalogowano jako {{username}}</a></li>
         <li><a href="/logout">Wyloguj</a></li>
       </ul>
-    <!-- /.NAVBAR RIGHT -->
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 
   <div class="jumbotron">
-    <h1>Witaj na stronie głównej</h1>
-    <p>Będą tu jakieś pierdoły, a na razie jest diodka która informuje czy jesteś połączony z socketem:</p>
-    <p><div data-ng-hide="connected" class="bulb">
-        <img src="img/bullet_red.png"> trwa łączenie…
-      </div>
-      <div data-ng-show="connected" class="bulb">
-        <img src="img/bullet_green.png"> połączono
-      </div>
-      </div>
-      </p>
+    <h1>Dodaj miejsce</h1>
+    <p>W tym miejscu możesz dodać miejsce</p>
+
+    <form action="/addPlace" method="post">
+      <input type="text" placeholder="Nazwa miejsca" ng-change="change()" ng-model="place.name" class="form-control" name="name"/>
+      <span data-ng-show="placeExist" style="color:red">Miejsce o takiej nazwie już istnieje</span><br />
+      <input type="text" placeholder="Miasto" class="form-control" ng-model="place.city" name="city"/><br />
+      <input type="text" placeholder="Ulica" class="form-control" ng-model="place.street" name="street"/><br />
+      <input type="text" placeholder="Numer" class="form-control" ng-model="place.number" name="number"/>
+      <input class="btn btn-primary btn-lg" type="submit" ng-disabled="buttonDisabled" value="Dodaj"/>
+    </form>
   </div>
+</div>
+
 </body>
 
 </html>
