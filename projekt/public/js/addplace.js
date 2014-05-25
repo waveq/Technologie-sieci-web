@@ -91,14 +91,12 @@ app.controller('appCtrlr', ['$scope', 'socket',
   
         $scope.addPlace = function(){
             var placeToSend = [];
-            placeToSend.unshift($scope.place.name);
-            placeToSend.unshift($scope.place.city);
-            placeToSend.unshift($scope.place.street);
             placeToSend.unshift($scope.place.number);
+            placeToSend.unshift($scope.place.street);
+            placeToSend.unshift($scope.place.city);
+            placeToSend.unshift($scope.place.name);
             socket.emit('addPlace', placeToSend);
         }
-
-
 
         socket.on('connect', function () {
             $scope.connected = true;

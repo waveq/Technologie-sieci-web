@@ -16,44 +16,53 @@
 </head>
 
 <body data-ng-app="czatApka">
-<div data-ng-controller="appCtrlr">
-  <nav class="navbar navbar-inverse " role="navigation">
+  <div data-ng-controller="appCtrlr">
+    <nav class="navbar navbar-inverse " role="navigation">
 
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">MeetMe</a>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MeetMe</a>
+          <ul class="nav navbar-nav">
+            <li data-ng-hide="connected" class="bulb">
+              <img src="img/bullet_red.png">
+            </li>
+            <li data-ng-show="connected" class="bulb">
+              <img src="img/bullet_green.png">
+            </li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-right" data-ng-hide="loggedIn">
+            <li><a href="/login">Zaloguj</a></li>
+            <li class="active"><a href="/signup">Zarejestruj się</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right" data-ng-hide="loggedIn">
-        <li><a href="/login">Zaloguj</a></li>
-        <li class="active"><a href="/signup">Zarejestruj się</a></li>
-      </ul>
-      </div>
+    </nav>
+    <div class="jumbotron">
+      <h1>Rejestracja</h1>
+      <form action="/signup" method="post">
+        <input type="text" placeholder="Login" ng-change="change()" data-ng-model="user.username"
+        class="form-control" name="username" required/>
+        <span data-ng-show="userExist" style="color:red">Użytkownik o takim loginie już istnieje</span><br />
+        <input type="password" ng-change="changePass()" placeholder="Hasło"  ng-model="user.password" class="form-control" name="password" required/><br />
+        <input type="password" ng-change="changePass()" placeholder="Powtórz hasło" ng-model="user.repeatPassword" class="form-control" name="password" required/>
+        <span data-ng-hide="passwordMatch" style="color:red">Hasła się nie zgadzają</span><br />
+
+        <input class="btn btn-primary btn-lg" ng-disabled="buttonDisabled" type="submit" value="Ding"/>
+      </form>
+
     </div>
-  </nav>
-  <div class="jumbotron">
-    <h1>Rejestracja</h1>
-    <form action="/signup" method="post">
-      <input type="text" placeholder="Login" ng-change="change()" data-ng-model="user.username"
-       class="form-control" name="username" required/>
-       <span data-ng-show="userExist" style="color:red">Użytkownik o takim loginie już istnieje</span><br />
-      <input type="password" ng-change="changePass()" placeholder="Hasło"  ng-model="user.password" class="form-control" name="password" required/><br />
-      <input type="password" ng-change="changePass()" placeholder="Powtórz hasło" ng-model="user.repeatPassword" class="form-control" name="password" required/>
-      <span data-ng-hide="passwordMatch" style="color:red">Hasła się nie zgadzają</span><br />
 
-      <input class="btn btn-primary btn-lg" ng-disabled="buttonDisabled" type="submit" value="Ding"/>
-    </form>
 
   </div>
-
-
-</div>
 </body>
 
 </html>

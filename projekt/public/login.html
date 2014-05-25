@@ -27,12 +27,20 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">MeetMe</a>
+        <ul class="nav navbar-nav">
+          <li data-ng-hide="connected" class="bulb">
+            <img src="img/bullet_red.png">
+          </li>
+          <li data-ng-show="connected" class="bulb">
+            <img src="img/bullet_green.png">
+          </li>
+        </ul>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right" data-ng-hide="loggedIn">
-        <li class="active"><a href="/login">Zaloguj</a></li>
-        <li><a href="/signup">Zarejestruj się</a></li>
-      </ul>
+        <ul class="nav navbar-nav navbar-right" data-ng-hide="loggedIn">
+          <li class="active"><a href="/login">Zaloguj</a></li>
+          <li><a href="/signup">Zarejestruj się</a></li>
+        </ul>
       </div>
     </div>
   </nav>
