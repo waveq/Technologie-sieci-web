@@ -17,47 +17,49 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
 
 
-        $scope.places = [];
-        $scope.fullPlaces = [];
-        $scope.fullPlace;
-
+        $scope.events = [];
+        $scope.fullEvents = [];
+        $scope.fullEvent;
 
  
-        var getAllPlaces = function() {
-            var myUrl = "/getAllPlaces/"
+        var getAllEvents = function() {
+            var myUrl = "/getAllEvents/"
+            console.log("dupa");
             $.ajax({
                 url: myUrl,
                 type: 'GET',
                 success: function(myJson) {
                     $.each(myJson, function() {
-                        $scope.places = myJson.lista;
+                        console.log("sukces");
+                        console.log(myJson.lista);
+                        $scope.events = myJson.lista;
                         $scope.$digest();
-                        for(var i = 0;i<$scope.places.length;i++) {
-                            console.log(myJson.lista);
-                           getSinglePlace($scope.places[i]); 
-                        }
+                         for(var i = 0;i<$scope.events.length;i++) {
+                             console.log(myJson.lista);
+                            getSingleEvent($scope.events[i]); 
+                         }
                     });
                 }
             });
             
         }
-       var getSinglePlace = function(placeName){
-            var myUrl = "/getSinglePlace/" + placeName;
+       var getSingleEvent = function(eventName){
+            var myUrl = "/getSingleEvent/" + eventName;
             $.ajax({
                 url: myUrl,
                 type: 'GET',
                 success: function(myJson) {
                     $.each(myJson, function() {
                         // console.log(myJson.place);
-                        $scope.fullPlaces.unshift(myJson.place);
-                        $scope.fullPlace = myJson.place;
+                        $scope.fullEvents.unshift(myJson.event);
+                        $scope.fullEvent = myJson.event;
                         
                         $scope.$digest();
                     });
                 }
             });
         }
-        getAllPlaces();
+        getAllEvents();
         
 
         var isDisabled = function () {
@@ -113,14 +115,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
         checkIfLoggedIn();  
 
   
-      $scope.addEvent = function(){
-            var eventToSend = [];
-            eventToSend.unshift($scope.event.time);
-            eventToSend.unshift($scope.event.date);
-            eventToSend.unshift($scope.event.place);
-            eventToSend.unshift($scope.event.name);
-            socket.emit('addEvent', eventToSend);
-    }
+
 
 
 
@@ -128,10 +123,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
             $scope.connected = true;
             $scope.$digest();
         });    
-        socket.on('addedPlace', function (data) {
+        socket.on('addedEvent', function (data) {
             console.log("Odebralem: ");
             console.log(data);
-            $scope.fullPlaces.unshift(data);
+            $scope.fullEvents.unshift(data);
             $scope.$digest();
         });
     

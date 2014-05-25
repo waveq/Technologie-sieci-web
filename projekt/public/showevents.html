@@ -6,7 +6,7 @@
   <title>MeetMe</title>
   <script src="/socket.io/socket.io.js"></script>
   <script src="angular/angular.min.js"></script>
-  <script src="js/showplaces.js"></script>
+  <script src="js/showevents.js"></script>
 
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -63,7 +63,7 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-show="loggedIn">
-      <li ><a href="#">Zalogowano jako {{username}}</a></li>
+      <li ><a href="/">Zalogowano jako {{username}}</a></li>
       <li><a href="/logout">Wyloguj</a></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -72,9 +72,16 @@
 
 
 <div class="jumbotron">
-  <h1>Dodane miejsca</h1>
+  <h1>Dodane wydarzenia</h1>
 
-  <div data-ng-repeat="place in fullPlaces track by $index"><h2>{{place[0]}}</h2>Miasto: {{place[1]}}<br /> Ulica: {{place[2]}}<br /> Numer: {{place[3]}}<br /></h1></div>
+  <div data-ng-repeat="event in fullEvents track by $index">
+
+
+  <h2>{{event[0]}}</h2>
+  Miejsce: {{event[1]}}<br /> 
+  Data: {{event[2]}}<br /> 
+  Godzina: {{event[3]}}<br />
+  </div>
 </div>
 </div>
 

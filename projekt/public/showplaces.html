@@ -63,7 +63,7 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-show="loggedIn">
-      <li ><a href="#">Zalogowano jako {{username}}</a></li>
+      <li ><a href="/">Zalogowano jako {{username}}</a></li>
       <li><a href="/logout">Wyloguj</a></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -74,7 +74,12 @@
 <div class="jumbotron">
   <h1>Dodane miejsca</h1>
 
-  <div data-ng-repeat="place in fullPlaces track by $index"><h2>{{place[0]}}</h2>Miasto: {{place[1]}}<br /> Ulica: {{place[2]}}<br /> Numer: {{place[3]}}<br /></h1></div>
+  <div data-ng-repeat="place in fullPlaces track by $index">
+  <h2>{{place[0]}}</h2>
+  Miasto: {{place[1]}}<br /> 
+  Ulica: {{place[2]}}<br /> 
+  Numer: {{place[3]}}<br />
+  </div>
 </div>
 </div>
 

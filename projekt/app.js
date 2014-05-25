@@ -71,8 +71,10 @@ app.use(express.static("bower_components"));
 // SOCKET
 io.sockets.on('connection', function(socket) {
 	socket.on('addPlace', function (newPlace) {
-		console.log("Wysyłam pokój:: " + newPlace.name);
 		socket.broadcast.emit("addedPlace", newPlace);
+	});
+	socket.on('addEvent', function (newEvent) {
+		socket.broadcast.emit("addedEvent", newEvent);
 	});
 });
 
@@ -215,10 +217,24 @@ app.get('/getAllPlaces', function(req, res) {
 	});
 });
 
+// POBIERZ WSZYSTKIE WYDARZENIA
+app.get('/getAllEvents', function(req, res) {
+	redisGetEvents("events").then(function(events) {
+		res.json({lista: events});
+	});
+});
+
 app.get('/getSinglePlace/:place', function(req, res) {
 	var place = req.params.place;
 	redisGetSinglePlace(place).then(function(singlePlace) {
 		res.json({place: singlePlace});
+	});
+});
+
+app.get('/getSingleEvent/:event', function(req, res) {
+	var event = req.params.event;
+	redisGetSingleEvent(event).then(function(singleEvent) {
+		res.json({event: singleEvent});
 	});
 });
 
@@ -307,6 +323,21 @@ var redisGetSinglePlace = function(name) {
 	return deferred.promise;
 };
 
+// FUNKCJA POBIERAJACA JEDNO WYDARZENIE <WARTOSC>
+var redisGetSingleEvent = function(name) {
+	var deferred = Q.defer();
+	client.lrange(name, 0, 3, function(err, reply) {
+		if (reply) {
+			console.log(reply);
+			deferred.resolve(reply);
+			
+		} else {
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
 // FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA BEZ HASLA
 var redisGet = function(data) {
 	var deferred = Q.defer();
@@ -339,6 +370,20 @@ var redisGetPass = function(username, password) {
 };
 // FUNKCJA POBIERAJACA WARTOSC Z BAZY REDISA
 var redisGetPlaces = function(data) {
+	var deferred = Q.defer();
+	client.lrange(data, 0, 111, function(err, reply) {
+		if (reply) {
+			console.log("REPLY GET: " + reply.toString());
+			deferred.resolve(reply);
+		} else {
+			console.log('no reply');
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
+var redisGetEvents = function(data) {
 	var deferred = Q.defer();
 	client.lrange(data, 0, 111, function(err, reply) {
 		if (reply) {
