@@ -121,6 +121,12 @@ app.controller('appCtrlr', ['$scope', 'socket',
             $scope.connected = true;
             $scope.$digest();
         });    
+        socket.on('addedPlace', function (data) {
+            console.log("Odebralem: ");
+            console.log(data);
+            $scope.fullPlaces.unshift(data);
+            $scope.$digest();
+        });
     
     }
 

@@ -89,7 +89,14 @@ app.controller('appCtrlr', ['$scope', 'socket',
         checkIfLoggedIn();  
 
   
-
+        $scope.addPlace = function(){
+            var placeToSend = [];
+            placeToSend.unshift($scope.place.name);
+            placeToSend.unshift($scope.place.city);
+            placeToSend.unshift($scope.place.street);
+            placeToSend.unshift($scope.place.number);
+            socket.emit('addPlace', placeToSend);
+        }
 
 
 

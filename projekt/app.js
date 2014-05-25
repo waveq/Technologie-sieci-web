@@ -69,7 +69,12 @@ app.use(express.static("bower_components"));
 
 
 // SOCKET
-io.sockets.on('connection', function(socket) {});
+io.sockets.on('connection', function(socket) {
+	socket.on('addPlace', function (newPlace) {
+		console.log("Wysyłam pokój:: " + newPlace.name);
+		socket.broadcast.emit("addedPlace", newPlace);
+	});
+});
 
 
 

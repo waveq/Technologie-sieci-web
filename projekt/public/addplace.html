@@ -73,7 +73,7 @@
       <input type="text" placeholder="Miasto" class="form-control" ng-model="place.city" name="city"/><br />
       <input type="text" placeholder="Ulica" class="form-control" ng-model="place.street" name="street"/><br />
       <input type="text" placeholder="Numer" class="form-control" ng-model="place.number" name="number"/>
-      <input class="btn btn-primary btn-lg" type="submit" ng-disabled="buttonDisabled" value="Dodaj"/>
+      <input class="btn btn-primary btn-lg" ng-click="addPlace()" type="submit" ng-disabled="buttonDisabled" value="Dodaj"/>
     </form>
   </div>
 </div>
