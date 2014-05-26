@@ -27,9 +27,6 @@ app.controller('appCtrlr', ['$scope', 'socket',
             }
         }
         var isDisabled = function () {
-            console.log("pass match: "+$scope.passwordMatch);
-            console.log("user exist : "+$scope.userExist);
-
             if($scope.passwordMatch == true && $scope.userExist == false && $scope.user.password.length > 1) {
                 return false;
             }
@@ -40,6 +37,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
         $scope.change = function () {
             $scope.userExist = false;
             $scope.buttonDisabled = isDisabled();
+            
 
             console.log($scope.user.username);
             var myUrl="/checkIfUserExists/"+$scope.user.username;

@@ -6,7 +6,7 @@
   <title>MeetMe</title>
   <script src="/socket.io/socket.io.js"></script>
   <script src="angular/angular.min.js"></script>
-  <script src="js/showplaces.js"></script>
+  <script src="js/addevent.js"></script>
 
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -76,15 +76,15 @@
   <p>W tym miejscu możesz dodać wydarzenie</p>
 
   <form action="/addEvent" method="post">
-    <input type="text" placeholder="Nazwa wydarzenia" ng-model="event.name" class="form-control" name="name"/>
-    <span data-ng-show="placeExist" style="color:red">Miejsce o takiej nazwie już istnieje</span><br />
+    <input type="text" placeholder="Nazwa wydarzenia" ng-change="change()" ng-model="event.name" class="form-control" name="name"/>
+    <span data-ng-show="eventExist" style="color:red">Wydarzenie o takiej nazwie już istnieje</span><br />
 
     Miejsce:
-   <select ng-model="place" ng-options="place for place in places" name="place"></select>
+   <select ng-model="event.place" ng-options="place for place in places" name="place"></select>
 <br /><br />
     <input type="text" placeholder="Data" class="form-control" ng-model="event.date" name="date"/><br />
     <input type="text" placeholder="Godzina" class="form-control" ng-model="event.time" name="time"/><br />
-    <input class="btn btn-primary btn-lg" ng-click="addEvent()" type="submit" value="Dodaj"/>
+    <input class="btn btn-primary btn-lg" ng-click="addEvent()" ng-disabled="buttonDisabled" type="submit" value="Dodaj"/>
   </form>
 </div>
 </div>

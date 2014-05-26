@@ -177,6 +177,15 @@ app.post('/addEvent', function(req, res) {
 	});
 });
 
+// SPRAWDZ CZY TAKIE WYDARZENIE JEST W BAZIE
+app.get('/checkIfEventExists/:name', function(req, res) {
+ 	var name = req.params.name;
+ 	console.log(name);
+	redisGetPlace(name).then(function(result) {
+		res.json({exist: result});
+	})
+});
+
 // SPRAWDZ CZY TAKIE MIEJSCE JEST W BAZIE
 app.get('/checkIfPlaceExists/:name', function(req, res) {
  	var name = req.params.name;
@@ -292,7 +301,7 @@ var redisSetEvent = function(name, place, date, time) {
 
 }
 
-// FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA BEZ HASLA
+// FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA DO SPRAWDZENIA CZY TAKIE MIEJSCE JEST W BAZIE
 var redisGetPlace = function(name) {
 	var deferred = Q.defer();
 	client.lrange(name, 0, 0, function(err, reply) {
@@ -307,6 +316,23 @@ var redisGetPlace = function(name) {
 	});
 	return deferred.promise;
 };
+
+// FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA DO SPRAWDZENIA CZY TAKIE MIEJSCE JEST W BAZIE
+var redisGetEvent = function(name) {
+	var deferred = Q.defer();
+	client.lrange(name, 0, 0, function(err, reply) {
+		if (reply) {
+			if(reply.toString() === name)
+				deferred.resolve(true);
+			else 
+				deferred.resolve(false);
+		} else {
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
 
 // FUNKCJA POBIERAJACA JEDNO MIEJSCE <WARTOSC>
 var redisGetSinglePlace = function(name) {

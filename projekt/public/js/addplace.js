@@ -98,14 +98,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             socket.emit('addPlace', placeToSend);
         }
 
-        $scope.addEvent = function(){
-            var eventToSend = [];
-            eventToSend.unshift($scope.event.time);
-            eventToSend.unshift($scope.event.date);
-            eventToSend.unshift($scope.event.place);
-            eventToSend.unshift($scope.event.name);
-            socket.emit('addEvent', eventToSend);
-        }
+  
 
         socket.on('connect', function () {
             $scope.connected = true;
