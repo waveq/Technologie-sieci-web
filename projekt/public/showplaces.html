@@ -75,7 +75,7 @@
   <h1>Dodane miejsca</h1>
 
   <div data-ng-repeat="place in fullPlaces track by $index">
-  <h2>{{place[0]}}</h2>
+  <h2><a href="/showplaces/{{place[0]}}">{{place[0]}}</a></h2>
   Miasto: {{place[1]}}<br /> 
   Ulica: {{place[2]}}<br /> 
   Numer: {{place[3]}}<br />

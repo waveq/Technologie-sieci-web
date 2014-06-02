@@ -122,8 +122,29 @@ app.get('/showplaces', function(req, res) {
 
 // STRONA POKAZ WYDARZENIA
 app.get('/showevents', function(req, res) {
-	var loginPage = "public/showevents.html";
-	res.sendfile(loginPage, {
+	var page = "public/showevents.html";
+	res.sendfile(page, {
+		root: __dirname
+	})
+});
+
+// STRONA JEDNEGO WYDARZENIA
+app.get('/showevents/:event', function(req, res) {
+	var page = "public/event.html";
+	res.sendfile(page, {
+		root: __dirname
+	})
+});
+
+// POBIERZ NAZWE WYDARZENIA Z URL
+// app.get('/event', function(req, res){
+//   res.send('id: ' + req.query.id);
+// });
+
+// STRONA JEDNEGO MIEJSCA
+app.get('/showplaces/:place', function(req, res) {
+	var page = "public/place.html";
+	res.sendfile(page, {
 		root: __dirname
 	})
 });
@@ -217,6 +238,9 @@ app.get('/loggedIn', function(req, res) {
 	
 	res.json({username: sessionJSON.passport.user.username})
 });
+
+
+
 
 // POBIERZ WSZYSTKIE MIEJSCA
 app.get('/getAllPlaces', function(req, res) {

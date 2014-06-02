@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <title>MeetMe</title>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="angular/angular.min.js"></script>
-  <script src="js/showevents.js"></script>
+  <script src="/angular/angular.min.js"></script>
+  <script src="/js/event.js"></script>
 
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="css/styl.css">
+  <link rel="stylesheet" href="/css/styl.css">
 
 </head>
 
@@ -31,10 +31,10 @@
           <a class="navbar-brand" href="/">MeetMe</a>
           <ul class="nav navbar-nav">
             <li data-ng-hide="connected" class="bulb">
-              <img src="img/bullet_red.png">
+              <img src="/img/bullet_red.png">
             </li>
             <li data-ng-show="connected" class="bulb">
-              <img src="img/bullet_green.png">
+              <img src="/img/bullet_green.png">
             </li>
           </ul>
     </div>  <!-- /.navbar header
@@ -74,14 +74,12 @@
 <div class="jumbotron">
   <h1>Dodane wydarzenia</h1>
 
-  <div data-ng-repeat="event in fullEvents track by $index">
 
 
-  <h2><a href="/showevents/{{event[0]}}">{{event[0]}}</a></h2>
-  Miejsce: {{event[1]}}<br /> 
-  Data: {{event[2]}}<br /> 
-  Godzina: {{event[3]}}<br />
-  </div>
+  <h2>{{name}}</h2>
+  Miejsce: {{place}}<br /> 
+  Data: {{date}}<br /> 
+  Godzina: {{time}}<br />
 </div>
 </div>
 
