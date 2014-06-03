@@ -126,7 +126,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
         socket.on('addedEvent', function (data) {
             console.log("Odebralem: ");
             console.log(data);
-            $scope.fullEvents.unshift(data);
+            $scope.fullEvents.push(data);
             $scope.$digest();
         });
     

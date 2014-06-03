@@ -4,13 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <title>MeetMe</title>
-  <script src="/socket.io/socket.io.js"></script>
+
   <script src="/angular/angular.min.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/js/place.js"></script>
+
 
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<!-- GO MAPS -->    <script src='/js/underscore.js'></script>
+
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
+
+  <script src="/js/angular-google-maps.js"></script>
+
   <link rel="stylesheet" href="/css/styl.css">
 
 </head>
@@ -71,13 +82,26 @@
 </nav>
 
 
-<div class="jumbotron">
-  <h1>Dodane miejsca</h1>
+<google-map center="map.center" zoom="map.zoom"></google-map>
 
-  <h2>{{name}}</h2>
-  Miasto: {{city}}<br /> 
-  Ulica: {{street}}<br /> 
-  Numer: {{number}}<br />
+<div class="jumbotron">
+  <div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Miejsce</div>
+
+  <table class="table">
+   <tr><th>Nazwa</th><th>Miasto</th><th>Ulica</th><th>Numer</th></tr>
+   <tr>
+    <td>{{name}}</td>
+    <td>{{city}}</td>
+    <td>{{street}}</td>
+    <td>{{number}}</td>
+   </tr>
+   </table>
+   </div>
+
+<google-map xcenter="map.center" zoom="map.zoom"></google-map>
+
   </div>
 </div>
 

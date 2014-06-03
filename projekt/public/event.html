@@ -72,19 +72,30 @@
 
 
 <div class="jumbotron">
-  <h1>Dodane wydarzenia</h1>
+
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Wydarzenie</div>
+
+  <table class="table">
+   <tr><th>Nazwa</th><th>Miejsce</th><th>Data</th><th>Godzina</th></tr>
+   <tr>
+    <td>{{name}}</td>
+   <td><a href="/showplaces/{{place}}">{{place}}</td>
+   <td>{{date}}</td>
+   <td>{{time}}</td>
+   </tr>
+   </table>
+   </div>
+
+  <div class="panel panel-info">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Zapisani użytkownicy</div>
+  <table class="table">
 
 
-
-  <h2>{{name}}</h2>
-  Miejsce: {{place}}<br /> 
-  Data: {{date}}<br /> 
-  Godzina: {{time}}<br />
-  <br />
-
-  <h2>Zapisali się już:</h2>
-  <div data-ng-repeat="user in signedUsers track by $index">
-  {{user}} <br />
+  <tr data-ng-repeat="user in signedUsers track by $index"><td>{{user}}</td>
+     </table>
   </div>
 
 

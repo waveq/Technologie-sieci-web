@@ -72,14 +72,22 @@
 
 
 <div class="jumbotron">
-  <h1>Dodane miejsca</h1>
 
-  <div data-ng-repeat="place in fullPlaces track by $index">
-  <h2><a href="/showplaces/{{place[0]}}">{{place[0]}}</a></h2>
-  Miasto: {{place[1]}}<br /> 
-  Ulica: {{place[2]}}<br /> 
-  Numer: {{place[3]}}<br />
-  </div>
+<div class="panel panel-default">
+  <div class="panel-heading">Dodane miejsca</div>
+
+  <table class="table">
+   <tr><th>Nazwa</th><th>Miejsce</th><th>Data</th><th>Godzina</th></tr>
+   <tr  data-ng-repeat="place in fullPlaces track by $index">
+    <td><a href="/showplaces/{{place[0]}}">{{place[0]}}</a></td>
+   <td>{{place[1]}}</td>
+   <td>{{place[2]}}</td>
+   <td>{{place[3]}}</td>
+   </tr>
+   </table>
+   </div>
+
+
 </div>
 </div>
 

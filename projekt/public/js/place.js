@@ -1,5 +1,4 @@
-var app = angular.module('czatApka', []);
-
+var app = angular.module('czatApka', ['google-maps']);
 app.factory('socket', function () {
     var socket = io.connect('http://' + location.host);
     return socket;
@@ -7,6 +6,14 @@ app.factory('socket', function () {
 
 app.controller('appCtrlr', ['$scope', 'socket',
     function ($scope, socket) {
+
+$scope.map = {
+    center: {
+        latitude: 45,
+        longitude: -73
+    },
+    zoom: 8
+};
         
 
         $scope.connected = false;
@@ -24,6 +31,8 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
 
 
+
+
         var getUrlParameter = function() {
             var url = window.location.pathname;
             var placeName = url.substr(12);
@@ -33,7 +42,6 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
        function getSinglePlace (placeName){
             var myUrl = "/getSinglePlace/" + placeName;
-            console.log("PLACE NAME" + placeName);
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -61,7 +69,6 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 success: function(myJson) {
                     $.each(myJson, function() {
                         $scope.username = myJson.username;
-                        console.log("user:",myJson.username);
                         if(myJson.username) {
                             $scope.loggedIn = true;
                             $scope.$digest();

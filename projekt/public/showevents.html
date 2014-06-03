@@ -72,17 +72,25 @@
 
 
 <div class="jumbotron">
-  <h1>Dodane wydarzenia</h1>
+  
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Dodane wydarzenia</div>
 
-  <div data-ng-repeat="event in fullEvents track by $index">
+  <table class="table">
+   <tr><th>Nazwa</th><th>Miejsce</th><th>Data</th><th>Godzina</th></tr>
+   <tr  data-ng-repeat="event in fullEvents track by $index">
+    <td><a href="/showevents/{{event[0]}}">{{event[0]}}</a></td>
+   <td><a href="/showplaces/{{event[1]}}">{{event[1]}}</td>
+   <td>{{event[2]}}</td>
+   <td>{{event[3]}}</td>
+   </tr>
+   </table>
+   </div>
+   </div>
 
 
-  <h2><a href="/showevents/{{event[0]}}">{{event[0]}}</a></h2>
-  Miejsce: {{event[1]}}<br /> 
-  Data: {{event[2]}}<br /> 
-  Godzina: {{event[3]}}<br />
   </div>
-</div>
 </div>
 
 </body>

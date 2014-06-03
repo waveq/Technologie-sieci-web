@@ -79,7 +79,11 @@
 
   <div class="jumbotron">
     <h1>Witaj na stronie głównej</h1>
-    <p>Diodka koło loga informuje o tym, czy jesteśmy połączeni z serwerem przez socket.</p>
+    <p>MeetMe służy do komunikowania użytkownikom o wydarzeniach jakie planujesz.<br />
+    Użytkownicy mają możliwość dodawania nowych miejsc, wydarzeń oraz mogą się zapisywać na dodane wydarzenia.<br />
+    Serwis wykorzystuje zapytania ajaxowe do serwera oraz sockety.<br />
+    Diodka koło loga informuje o tym, czy jesteśmy połączeni z serwerem przez socket.<br />
+    Użyta baza danych to <a href="http://redis.io/">Redis</a>.</p>
   
     <!--  -->
     <div ng-init="locationData = '<?=htmlspecialchars($data)?>'">
