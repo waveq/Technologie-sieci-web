@@ -5,14 +5,14 @@ app.factory('socket', function () {
 });
 
 app.controller('appCtrlr', ['$scope', 'socket',
-    function ($scope, socket) {
+    function ($scope, socket, map) {
 
 $scope.map = {
     center: {
-        latitude: 45,
-        longitude: -73
+        latitude: 52,
+        longitude: 19
     },
-    zoom: 8
+    zoom: 6
 };
         
 

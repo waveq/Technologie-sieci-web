@@ -13,6 +13,10 @@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="css/styl.css">
 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script> 
+  <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+  <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+
 </head>
 
 <body data-ng-app="czatApka">
@@ -63,7 +67,7 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-show="loggedIn">
-      <li ><a href="/showevents">Zalogowano jako {{username}}</a></li>
+      <li ><a href="/">Zalogowano jako {{username}}</a></li>
       <li><a href="/logout">Wyloguj</a></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -76,15 +80,15 @@
   <p>W tym miejscu możesz dodać wydarzenie</p>
 
   <form action="/addEvent" method="post">
-    <input type="text" placeholder="Nazwa wydarzenia" ng-change="change()" ng-model="event.name" class="form-control" name="name"/>
+    <input type="text" placeholder="Nazwa wydarzenia" ng-change="change()" required="true" ng-model="event.name" class="form-control" name="name"/>
     <span data-ng-show="eventExist" style="color:red">Wydarzenie o takiej nazwie już istnieje</span><br />
 
     Miejsce:
-   <select ng-model="event.place" ng-options="place for place in places" name="place"></select>
+   <select ng-model="event.place" ng-options="place for place in places" required="true" name="place"></select>
 <br /><br />
-    <input type="text" placeholder="Data" class="form-control" ng-model="event.date" name="date"/><br />
-    <input type="text" placeholder="Godzina" class="form-control" ng-model="event.time" name="time"/><br />
-    <input class="btn btn-primary btn-lg" ng-click="addEvent()" ng-disabled="buttonDisabled" type="submit" value="Dodaj"/>
+    <input type="date" placeholder="Data" class="form-control" required="true" ng-model="event.date" name="date"/><br />
+    <input type="time" placeholder="Godzina" class="form-control" required="true" ng-model="event.time" name="time"/><br />
+    <input class="btn btn-primary btn-lg" ng-click="addEvent()" required="true" ng-disabled="buttonDisabled" type="submit" value="Dodaj"/>
   </form>
 </div>
 </div>

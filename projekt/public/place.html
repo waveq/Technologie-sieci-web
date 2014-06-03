@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
   <title>MeetMe</title>
 
+  <style>
+ .angular-google-map-container { height: 440px; }
+</style>
+
   <script src="/angular/angular.min.js"></script>
 
   <script src="/socket.io/socket.io.js"></script>
@@ -15,10 +19,11 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-<!-- GO MAPS -->    <script src='/js/underscore.js'></script>
-
+<!-- GO MAPS -->    
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
+
+  <script src='/js/underscore.js'></script>
+
 
   <script src="/js/angular-google-maps.js"></script>
 
@@ -82,7 +87,6 @@
 </nav>
 
 
-<google-map center="map.center" zoom="map.zoom"></google-map>
 
 <div class="jumbotron">
   <div class="panel panel-primary">
@@ -99,9 +103,9 @@
    </tr>
    </table>
    </div>
-
-<google-map xcenter="map.center" zoom="map.zoom"></google-map>
-
+<google-map center="map.center" zoom="map.zoom">
+</google-map>
+</div>
   </div>
 </div>
 

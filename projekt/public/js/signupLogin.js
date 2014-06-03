@@ -16,6 +16,8 @@ app.controller('appCtrlr', ['$scope', 'socket',
         $scope.buttonDisabled = true;
 
 
+
+
         $scope.changePass = function () {
             $scope.passwordMatch = true;
             $scope.buttonDisabled = isDisabled();
@@ -27,7 +29,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             }
         }
         var isDisabled = function () {
-            if($scope.passwordMatch == true && $scope.userExist == false && $scope.user.password.length > 1) {
+            if($scope.passwordMatch == true && $scope.userExist == false) {
                 return false;
             }
             else 

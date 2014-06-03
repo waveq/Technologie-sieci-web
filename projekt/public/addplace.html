@@ -80,7 +80,7 @@
     <span data-ng-show="placeExist" style="color:red">Miejsce o takiej nazwie już istnieje</span><br />
     <input type="text" placeholder="Miasto" class="form-control" ng-model="place.city" name="city"/><br />
     <input type="text" placeholder="Ulica" class="form-control" ng-model="place.street" name="street"/><br />
-    <input type="text" placeholder="Numer" class="form-control" ng-model="place.number" name="number"/><br />
+    <input type="number" placeholder="Numer" class="form-control" ng-model="place.number" name="number"/><br />
     <input class="btn btn-primary btn-lg" ng-click="addPlace()" type="submit" ng-disabled="buttonDisabled" value="Dodaj"/>
   </form>
 </div>

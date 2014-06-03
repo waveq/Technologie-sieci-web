@@ -85,47 +85,81 @@ io.sockets.on('connection', function(socket) {
 
 // STRONA LOGOWANIA
 app.get('/login', function(req, res) {
-	var loginPage = "public/login.html";
-	res.sendfile(loginPage, {
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/login.html";
+	} else {
+		var page = "public/index.html";
+	}
+
+	res.sendfile(page, {
 		root: __dirname
 	})
 });
 
 // STRONA REJESTRACJI
 app.get('/signup', function(req, res) {
-	var signupPage = "public/signup.html";
-	res.sendfile(signupPage, {
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/signup.html";
+	} else {
+		var page = "public/index.html";
+	}
+	res.sendfile(page, {
 		root: __dirname
 	})
 });
 
 // STRONA DODAJ MIEJSCE
 app.get('/addplace', function(req, res) {
-	var loginPage = "public/addplace.html";
-	res.sendfile(loginPage, {
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/index.html"
+	} else {
+		var page = "public/addplace.html";
+	}
+
+	res.sendfile(page, {
 		root: __dirname
 	})
 });
 
 // STRONA DODAJ WYDARZENIE
 app.get('/addevent', function(req, res) {
-	var loginPage = "public/addevent.html";
-	res.sendfile(loginPage, {
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/index.html"
+	} else {
+		var page = "public/addevent.html";
+	}
+
+	res.sendfile(page, {
 		root: __dirname
 	})
 });
 
 // STRONA POKAZ MIEJSCA
 app.get('/showplaces', function(req, res) {
-	var loginPage = "public/showplaces.html";
-	res.sendfile(loginPage, {
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/index.html"
+	} else {
+		var page = "public/showplaces.html";
+	}
+	res.sendfile(page, {
 		root: __dirname
 	})
 });
 
 // STRONA POKAZ WYDARZENIA
 app.get('/showevents', function(req, res) {
-	var page = "public/showevents.html";
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/index.html"
+	} else {
+		var page = "public/showevents.html";
+	}
 	res.sendfile(page, {
 		root: __dirname
 	})
@@ -133,7 +167,14 @@ app.get('/showevents', function(req, res) {
 
 // STRONA JEDNEGO WYDARZENIA
 app.get('/showevents/:event', function(req, res) {
-	var page = "public/event.html";
+	
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/index.html"
+	} else {
+		var page = "public/event.html";
+	}
+
 	res.sendfile(page, {
 		root: __dirname
 	})
@@ -142,7 +183,13 @@ app.get('/showevents/:event', function(req, res) {
 
 // STRONA JEDNEGO MIEJSCA
 app.get('/showplaces/:place', function(req, res) {
-	var page = "public/place.html";
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	if(sessionJSON.passport.user === undefined) {
+		var page = "public/index.html"
+	} else {
+		var page = "public/place.html";
+	}
+	
 	res.sendfile(page, {
 		root: __dirname
 	})
