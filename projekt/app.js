@@ -76,6 +76,9 @@ io.sockets.on('connection', function(socket) {
 	socket.on('addEvent', function (newEvent) {
 		socket.broadcast.emit("addedEvent", newEvent);
 	});
+	socket.on('signUp', function (username) {
+		socket.broadcast.emit("signedUp", username);
+	});
 });
 
 
@@ -136,10 +139,6 @@ app.get('/showevents/:event', function(req, res) {
 	})
 });
 
-// POBIERZ NAZWE WYDARZENIA Z URL
-// app.get('/event', function(req, res){
-//   res.send('id: ' + req.query.id);
-// });
 
 // STRONA JEDNEGO MIEJSCA
 app.get('/showplaces/:place', function(req, res) {
@@ -174,13 +173,30 @@ app.post('/addPlace', function(req, res) {
 	var city = req.body.city;
 	var street = req.body.street;
 	var number = req.body.number;
-	console.log(name);
-	console.log(city);
-	console.log(street);
-	console.log(number);
 
 	redisSetPlace(name, city, street, number);
 	res.redirect('/showplaces');
+});
+
+// ZAPISZ SIE NA WYDARZENIE
+app.get('/signUpEvent/:event', function(req, res) {
+	var eventName = req.params.event;
+	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var username = sessionJSON.passport.user.username;
+	console.log(eventName);
+
+	redisSignUpUser(username, eventName);
+	// redisSetPlace(name, city, street, number);
+	res.json({pusto: ""});
+});
+
+// POBIERZ USEROW ZAPISANYCH NA WYDARZENIE
+app.get('/getSignedUsers/:event', function(req, res) {
+	var eventName = req.params.event;
+	redisGetUsersFromEvent(eventName).then(function(users) {
+		res.json({lista: users});
+	});
+
 });
 
 // DODAWANIE WYDARZENIA
@@ -271,6 +287,15 @@ app.get('/getSingleEvent/:event', function(req, res) {
 	});
 });
 
+// FUNKCJA ZAPISUJACA USERA NA WYDARZENIE
+var redisSignUpUser = function(username, eventName) {
+		console.log("Zapisuje usera: "+ username +" na wydarzenie: " + eventName);
+
+		client.rpush(eventName+"-users", username, function(err, reply) {
+			console.log("REPLY SET: " + reply.toString());
+		});
+}
+
 
 // FUNKCJA USTAWIAJACA UZYTKOWNIKA DO BAZY REDISA
 var redisSetUser = function(username, password) {
@@ -299,7 +324,6 @@ var redisSetPlace = function(name, city, street, number) {
 		client.rpush("places", name, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
-
 }
 
 // FUNKCJA DODAJACA WYDARZENIE DO BAZY REDISA
@@ -322,7 +346,6 @@ var redisSetEvent = function(name, place, date, time) {
 		client.rpush("events", name, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
-
 }
 
 // FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA DO SPRAWDZENIA CZY TAKIE MIEJSCE JEST W BAZIE
@@ -422,6 +445,21 @@ var redisGetPass = function(username, password) {
 var redisGetPlaces = function(data) {
 	var deferred = Q.defer();
 	client.lrange(data, 0, 111, function(err, reply) {
+		if (reply) {
+			console.log("REPLY GET: " + reply.toString());
+			deferred.resolve(reply);
+		} else {
+			console.log('no reply');
+			deferred.resolve(false);
+		}
+	});
+	return deferred.promise;
+};
+
+// FUNKCJA USEROW PRZYPISANYCH DO EVENTU
+var redisGetUsersFromEvent = function(eventName) {
+	var deferred = Q.defer();
+	client.lrange(eventName+"-users", 0, 111, function(err, reply) {
 		if (reply) {
 			console.log("REPLY GET: " + reply.toString());
 			deferred.resolve(reply);

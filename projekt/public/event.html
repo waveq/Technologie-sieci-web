@@ -80,6 +80,17 @@
   Miejsce: {{place}}<br /> 
   Data: {{date}}<br /> 
   Godzina: {{time}}<br />
+  <br />
+
+  <h2>Zapisali się już:</h2>
+  <div data-ng-repeat="user in signedUsers track by $index">
+  {{user}} <br />
+  </div>
+
+
+  <button ng-click="signUp()" data-ng-disabled="buttonDisabled" class="btn btn-success">Zapisz się</button>
+
+
 </div>
 </div>
 

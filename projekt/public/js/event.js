@@ -13,7 +13,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
         $scope.username = "";
         $scope.userExist = false;
         $scope.passwordMatch = true;
-        $scope.buttonDisabled = true;
+        $scope.buttonDisabled = false;
 
 
         $scope.name = '';
@@ -21,14 +21,8 @@ app.controller('appCtrlr', ['$scope', 'socket',
         $scope.date = '';
         $scope.time = '';
 
+        $scope.signedUsers = [];
 
-
-
-
-
-        $scope.events = [];
-        $scope.fullEvents = [];
-        $scope.fullEvent;
 
         var getUrlParameter = function() {
             var url = window.location.pathname;
@@ -38,27 +32,6 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
 
  
-        // var getAllEvents = function() {
-        //     var myUrl = "/getAllEvents/"
-        //     console.log("dupa");
-        //     $.ajax({
-        //         url: myUrl,
-        //         type: 'GET',
-        //         success: function(myJson) {
-        //             $.each(myJson, function() {
-        //                 console.log("sukces");
-        //                 console.log(myJson.lista);
-        //                 $scope.events = myJson.lista;
-        //                 $scope.$digest();
-        //                  for(var i = 0;i<$scope.events.length;i++) {
-        //                      console.log(myJson.lista);
-        //                     getSingleEvent($scope.events[i]); 
-        //                  }
-        //             });
-        //         }
-        //     });
-            
-        // }
         function getSingleEvent(eventName){
             var myUrl = "/getSingleEvent/" + eventName;
 
@@ -77,47 +50,65 @@ app.controller('appCtrlr', ['$scope', 'socket',
                         $scope.date = myJson.event[2];
                         $scope.time = myJson.event[3];
 
-                        console.log($scope.name + " " + $scope.place + " " + $scope.date + " " + $scope.time)
+                        $scope.getSignedUsers();
                         $scope.$digest();
                     });
                 }
             });
         }
         getSingleEvent(getUrlParameter());
-        
 
-        var isDisabled = function () {
-            console.log("pass match: "+$scope.passwordMatch);
-            console.log("user exist : "+$scope.userExist);
+        $scope.signUp = function () {
 
-            if($scope.passwordMatch == true && $scope.userExist == false && $scope.user.password.length > 1) {
-                return false;
-            }
-            else 
-                return true;
-            }
-
-        $scope.change = function () {
-            $scope.userExist = false;
-            $scope.buttonDisabled = isDisabled();
-
-            console.log($scope.user.username);
-            var myUrl="/checkIfUserExists/"+$scope.user.username;
+            var myUrl="/signUpEvent/"+$scope.name;
             $.ajax({
-            url: myUrl,
-            type: 'GET',
-            success: function(myJson) {
-                $.each(myJson, function() {
-                    console.log(myJson.exist);
-                    if(myJson.exist) {
-                        $scope.userExist = true;
-                        $scope.buttonDisabled = isDisabled();
-                        $scope.$digest();
-                    }
-                }); 
-            }});
-                
+                url: myUrl,
+                type: 'GET',
+                success: function(myJson) {
+                    $scope.getSignedUsers();
+                    $scope.checkIfSigned();
+                    socket.emit('signUp', $scope.username);
+                }
+            });
         }
+
+        $scope.getSignedUsers = function () {
+            var myUrl="/getSignedUsers/"+$scope.name;
+            console.log("URL:" +myUrl);
+            $.ajax({
+                url: myUrl,
+                type: 'GET',
+                success: function(myJson) {
+                    $.each(myJson, function() {
+                        $scope.signedUsers = myJson.lista;
+                        $scope.checkIfSigned();
+                        $scope.$digest();
+                    });
+                }
+            });
+        }
+        
+        $scope.checkIfSigned = function() {
+            var myUrl="/getSignedUsers/"+$scope.name;
+            console.log("URL:" +myUrl);
+            $.ajax({
+                url: myUrl,
+                type: 'GET',
+                success: function(myJson) {
+                    $.each(myJson, function() {
+                        $scope.signedUsers = myJson.lista;
+                        for(var i=0;i < $scope.signedUsers.length; i++) {
+                            console.log($scope.signedUsers[i] + " : " + $scope.username);
+                            if($scope.signedUsers[i] === $scope.username) {
+                                $scope.buttonDisabled = true;
+                                $scope.$digest();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        
 
       var checkIfLoggedIn = function() {
             var myUrl = "/loggedIn"
@@ -147,10 +138,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
             $scope.connected = true;
             $scope.$digest();
         });    
-        socket.on('addedEvent', function (data) {
+        socket.on('signedUp', function (data) {
             console.log("Odebralem: ");
             console.log(data);
-            $scope.fullEvents.unshift(data);
+            $scope.signedUsers.push(data);
             $scope.$digest();
         });
     
