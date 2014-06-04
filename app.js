@@ -77,6 +77,7 @@ io.sockets.on('connection', function(socket) {
 		socket.broadcast.emit("addedPlace", newPlace);
 	});
 	socket.on('addEvent', function (newEvent) {
+		console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 		socket.broadcast.emit("addedEvent", newEvent);
 	});
 	socket.on('signUp', function (username) {

@@ -114,11 +114,6 @@ app.controller('appCtrlr', ['$scope', 'socket',
         }
         checkIfLoggedIn();  
 
-  
-
-
-
-
         socket.on('connect', function () {
             $scope.connected = true;
             $scope.$digest();
@@ -126,7 +121,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
         socket.on('addedEvent', function (data) {
             console.log("Odebralem: ");
             console.log(data);
-            $scope.fullEvents.push(data);
+            $scope.fullEvents.unshift(data);
             $scope.$digest();
         });
     
