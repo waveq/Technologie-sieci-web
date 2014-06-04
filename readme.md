@@ -8,3 +8,7 @@ Instalacja zależności:
 Uruchomienie serwera:
 
     node app.js
+
+Aplikacja jest pod adresem:
+	
+	localhost:3000
