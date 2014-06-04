@@ -12,3 +12,7 @@ Uruchomienie serwera:
 Aplikacja jest pod adresem:
 	
 	localhost:3000
+
+Użyta baza danych to:
+	
+	Redis
