@@ -1,4 +1,4 @@
-var app = angular.module('czatApka', ['google-maps']);
+var app = angular.module('czatApka', []);
 app.factory('socket', function () {
     var socket = io.connect('http://' + location.host);
     return socket;
@@ -7,13 +7,13 @@ app.factory('socket', function () {
 app.controller('appCtrlr', ['$scope', 'socket',
     function ($scope, socket, map) {
 
-$scope.map = {
-    center: {
-        latitude: 52,
-        longitude: 19
-    },
-    zoom: 6
-};
+// $scope.map = {
+//     center: {
+//         latitude: 52,
+//         longitude: 19
+//     },
+//     zoom: 6
+// };
         
 
         $scope.connected = false;

@@ -10,6 +10,9 @@ var io = socketio.listen(httpServer);
 var redis = require("redis"),
 	client = redis.createClient();
 
+/** Less compiler */
+var less = require('less-middleware');
+
 // PASSPORT
 var connect = require('connect');
 var sessionSecret = 'wielkiSekret44';

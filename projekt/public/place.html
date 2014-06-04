@@ -4,10 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <title>MeetMe</title>
-
   <style>
- .angular-google-map-container { height: 440px; }
-</style>
+    #map{
+      height: 400px;
+      width: 100%;
+    }
+
+
+  </style>
 
   <script src="/angular/angular.min.js"></script>
 
@@ -19,19 +23,25 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-<!-- GO MAPS -->    
-  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-  <script src='/js/underscore.js'></script>
+  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script src="/js/jquery-1.6.3.min.js"></script>
+  <script src="/js/jquery.gomap-1.3.2.min.js"></script> 
+
+  <script src="/js/placemap.js"></script> 
+<!-- GO MAPS 
+  // <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+  // <script src='/js/underscore.js'></script>
 
 
-  <script src="/js/angular-google-maps.js"></script>
+   <script src="/js/angular-google-maps.js"></script>
 
-  <link rel="stylesheet" href="/css/styl.css">
+   <link rel="stylesheet" href="/css/styl.css"> -->   
 
-</head>
+ </head>
 
-<body data-ng-app="czatApka">
+ <body data-ng-app="czatApka">
   <div data-ng-controller="appCtrlr">
 
     <nav class="navbar navbar-inverse " role="navigation">
@@ -46,12 +56,7 @@
           </button>
           <a class="navbar-brand" href="/">MeetMe</a>
           <ul class="nav navbar-nav">
-            <li data-ng-hide="connected" class="bulb">
-              <img src="/img/bullet_red.png">
-            </li>
-            <li data-ng-show="connected" class="bulb">
-              <img src="/img/bullet_green.png">
-            </li>
+           
           </ul>
     </div>  <!-- /.navbar header
 
@@ -90,23 +95,29 @@
 
 <div class="jumbotron">
   <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  <div class="panel-heading">Miejsce</div>
+    <!-- Default panel contents -->
+    <div class="panel-heading">Miejsce</div>
 
-  <table class="table">
-   <tr><th>Nazwa</th><th>Miasto</th><th>Ulica</th><th>Numer</th></tr>
-   <tr>
-    <td>{{name}}</td>
-    <td>{{city}}</td>
-    <td>{{street}}</td>
-    <td>{{number}}</td>
-   </tr>
-   </table>
-   </div>
-<google-map center="map.center" zoom="map.zoom">
-</google-map>
+    <table class="table">
+     <tr><th>Nazwa</th><th>Miasto</th><th>Ulica</th><th>Numer</th></tr>
+     <tr>
+      <td id="name">{{name}}</td>
+      <td id="city">{{city}}</td>
+      <td id="street">{{street}}</td>
+      <td id="number">{{number}}</td>
+    </tr>
+  </table>
 </div>
-  </div>
+<!-- <google-map center="map.center" zoom="map.zoom">
+</google-map> -->
+
+
+<div class="main">
+  <h3>Mapka</h3>
+  <div id="map"></div>
+</div>
+</div>
+</div>
 </div>
 
 </body>
