@@ -37,7 +37,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             var url = window.location.pathname;
             var placeName = url.substr(12);
             return placeName;
-        }
+        };
  
 
        function getSinglePlace (placeName){
@@ -62,7 +62,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -76,7 +76,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
   

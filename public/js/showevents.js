@@ -11,9 +11,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
         $scope.connected = false;
         $scope.username = "";
-        $scope.userExist = false;
-        $scope.passwordMatch = true;
-        $scope.buttonDisabled = true;
+
 
 
 
@@ -23,7 +21,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
  
         var getAllEvents = function() {
-            var myUrl = "/getAllEvents/"
+            var myUrl = "/getAllEvents/";
             console.log("dupa");
             $.ajax({
                 url: myUrl,
@@ -42,7 +40,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }
             });
             
-        }
+        };
        var getSingleEvent = function(eventName){
             var myUrl = "/getSingleEvent/" + eventName;
             $.ajax({
@@ -58,7 +56,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     });
                 }
             });
-        }
+        };
         getAllEvents();
         
 
@@ -66,12 +64,12 @@ app.controller('appCtrlr', ['$scope', 'socket',
             console.log("pass match: "+$scope.passwordMatch);
             console.log("user exist : "+$scope.userExist);
 
-            if($scope.passwordMatch == true && $scope.userExist == false && $scope.user.password.length > 1) {
+            if($scope.passwordMatch === true && $scope.userExist === false && $scope.user.password.length > 1) {
                 return false;
             }
             else 
                 return true;
-            }
+            };
 
         $scope.change = function () {
             $scope.userExist = false;
@@ -93,10 +91,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }); 
             }});
                 
-        }
+        };
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -111,7 +109,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
         socket.on('connect', function () {
@@ -126,8 +124,5 @@ app.controller('appCtrlr', ['$scope', 'socket',
         });
     
     }
-
-
-
 ]);
 

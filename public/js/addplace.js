@@ -22,23 +22,9 @@ app.controller('appCtrlr', ['$scope', 'socket',
         $scope.numberLength = 0;
 
 
-
-        // $scope.changePass = function () {
-        //     $scope.passwordMatch = true;
-        //     $scope.buttonDisabled = isDisabled();
-
-        //     if($scope.user.password !== $scope.user.repeatPassword) {
-        //         $scope.passwordMatch = false;
-        //         $scope.buttonDisabled = isDisabled();
-        //         $scope.$disgest();
-        //     }
-        // }
-
-
         var isDisabled = function () {
             if($scope.place.name.length > 2 &&
-             $scope.place.city.length > 2 && $scope.place.street.length > 2 
-             && $scope.place.number.length > 0) {
+             $scope.place.city.length > 2 && $scope.place.street.length > 2 && $scope.place.number.length > 0) {
                 $scope.length = false;
                 return false;
             }
@@ -46,7 +32,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 $scope.length = true;
                 return true;
             }
-        }
+        };
 
         $scope.change = function () {
             $scope.placeExist = false;
@@ -66,11 +52,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }
                 }); 
             }});
-                
-        }
+        };
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -85,7 +70,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
   
@@ -96,7 +81,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             placeToSend.unshift($scope.place.city);
             placeToSend.unshift($scope.place.name);
             socket.emit('addPlace', placeToSend);
-        }
+        };
 
   
 
@@ -111,3 +96,50 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
 ]);
 
+ var checkIfLoggedIn = function() {
+            var myUrl = "/loggedIn";
+            $.ajax({
+                url: myUrl,
+                type: 'GET',
+                success: function(myJson) {
+                    $.each(myJson, function() {
+                        $scope.username = myJson.username;
+                        console.log("user:",myJson.username);
+                        if(myJson.username) {
+                            //$scope.avatar = getRandomInt(1,8);
+                            $scope.loggedIn = true;
+                            $scope.$digest();
+                            getUserAvatar(myJson.username);
+                        }
+                    });
+                }
+            });
+           
+ 
+           
+            //var div = document.getElementById('debug');
+            //div.innerHTML = $scope.loggedIn + ' yolo';
+          //document.getElementById('login_input').value='textosplayed' ;
+        };
+        var getUserAvatar = function(username) {
+            console.log("PRZED WYSLANIEM1 MYURL2: " + "/getAvatarByUser/:" + $scope.username);
+            var myUrl2 = "/getAvatarByUser/:" + $scope.username;
+            $.ajax({
+                url: myUrl2,
+                type: 'GET',
+                success: function(myJson) {
+                    $.each(myJson, function() {
+                        $scope.avatar = myJson.avatar;
+                        console.log("avatar:",myJson.avatar);
+                        if(myJson.avatar) {
+                            //$scope.avatar = getRandomInt(1,8);
+                            $scope.avatar = myJson.avatar;
+                            $scope.$digest();
+                        }
+                    });
+                }
+            });
+        };
+       
+       
+        checkIfLoggedIn();

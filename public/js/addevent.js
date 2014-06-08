@@ -18,12 +18,11 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
         $scope.places = [];
         $scope.fullPlaces = [];
-        $scope.fullPlace;
 
 
  
         var getAllPlaces = function() {
-            var myUrl = "/getAllPlaces/"
+            var myUrl = "/getAllPlaces/";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -39,7 +38,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }
             });
             
-        }
+        };
        var getSinglePlace = function(placeName){
             var myUrl = "/getSinglePlace/" + placeName;
             $.ajax({
@@ -55,7 +54,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     });
                 }
             });
-        }
+        };
         getAllPlaces();
         
 
@@ -78,10 +77,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }); 
             }});
                 
-        }
+        };
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -96,7 +95,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
   
@@ -107,7 +106,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             eventToSend.unshift($scope.event.place);
             eventToSend.unshift($scope.event.name);
             socket.emit('addEvent', eventToSend);
-    }
+    };
     socket.on('connect', function () {
             $scope.connected = true;
             $scope.$digest();

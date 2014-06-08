@@ -27,14 +27,14 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 $scope.buttonDisabled = isDisabled();
                 $scope.$disgest();
             }
-        }
+        };
         var isDisabled = function () {
-            if($scope.passwordMatch == true && $scope.userExist == false) {
+            if($scope.passwordMatch === true && $scope.userExist === false) {
                 return false;
             }
             else 
                 return true;
-            }
+            };
 
         $scope.change = function () {
             $scope.userExist = false;
@@ -57,10 +57,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }); 
             }});
                 
-        }
+        };
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -75,7 +75,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
   

@@ -24,7 +24,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
 
  
         var getAllPlaces = function() {
-            var myUrl = "/getAllPlaces/"
+            var myUrl = "/getAllPlaces/";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -40,7 +40,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }
             });
             
-        }
+        };
        var getSinglePlace = function(placeName){
             var myUrl = "/getSinglePlace/" + placeName;
             $.ajax({
@@ -56,7 +56,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     });
                 }
             });
-        }
+        };
         getAllPlaces();
         
 
@@ -64,12 +64,12 @@ app.controller('appCtrlr', ['$scope', 'socket',
             console.log("pass match: "+$scope.passwordMatch);
             console.log("user exist : "+$scope.userExist);
 
-            if($scope.passwordMatch == true && $scope.userExist == false && $scope.user.password.length > 1) {
+            if($scope.passwordMatch === true && $scope.userExist === false && $scope.user.password.length > 1) {
                 return false;
             }
             else 
                 return true;
-            }
+            };
 
         $scope.change = function () {
             $scope.userExist = false;
@@ -91,10 +91,10 @@ app.controller('appCtrlr', ['$scope', 'socket',
                 }); 
             }});
                 
-        }
+        };
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -109,7 +109,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
   
@@ -120,7 +120,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             eventToSend.unshift($scope.event.place);
             eventToSend.unshift($scope.event.name);
             socket.emit('addEvent', eventToSend);
-    }
+    };
 
 
 

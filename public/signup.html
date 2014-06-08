@@ -30,10 +30,10 @@
           <a class="navbar-brand" href="/">MeetMe</a>
           <ul class="nav navbar-nav">
             <li data-ng-hide="connected" class="bulb">
-              <img src="img/bullet_red.png">
+              <img src="img/bullet_red.png" alt="red" >
             </li>
             <li data-ng-show="connected" class="bulb">
-              <img src="img/bullet_green.png">
+              <img src="img/bullet_green.png" alt="green" >
             </li>
           </ul>
         </div>
@@ -49,14 +49,14 @@
     <div class="jumbotron">
       <h1>Rejestracja</h1>
       <form action="/signup" method="post">
-        <input type="text" placeholder="Login" ng-change="change()" data-ng-model="user.username"
+        <input type="text" placeholder="Login" data-ng-change="change()" data-ng-model="user.username"
         class="form-control" name="username" required/>
         <span data-ng-show="userExist" style="color:red">Użytkownik o takim loginie już istnieje</span><br />
-        <input required="true" type="password" ng-change="changePass()" placeholder="Hasło"  ng-model="user.password" class="form-control" name="password" required/><br />
-        <input type="password" ng-change="changePass()" placeholder="Powtórz hasło" ng-model="user.repeatPassword" class="form-control" name="password" required/>
+        <input required type="password" data-ng-change="changePass()" placeholder="Hasło"  ng-model="user.password" class="form-control" name="password" required/><br />
+        <input type="password" data-ng-change="changePass()" placeholder="Powtórz hasło" ng-model="user.repeatPassword" class="form-control" name="password" required />
         <span data-ng-hide="passwordMatch" style="color:red">Hasła się nie zgadzają</span><br />
 
-        <input class="btn btn-primary btn-lg" ng-disabled="buttonDisabled" type="submit" value="Ding"/>
+        <input class="btn btn-primary btn-lg" data-ng-disabled="buttonDisabled" type="submit" value="Ding"/>
       </form>
 
     </div>

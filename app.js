@@ -13,6 +13,15 @@ var redis = require("redis"),
 /** Less compiler */
 var less = require('less-middleware');
 
+var path = require('path');
+
+ app.use(less({
+        src: path.join(__dirname, 'less'),
+        dest: path.join(__dirname, 'public/css'),
+        prefix: '/css',
+        compress: true
+    }));
+
 // PASSPORT
 var connect = require('connect');
 var sessionSecret = 'wielkiSekret44';
@@ -90,113 +99,123 @@ io.sockets.on('connection', function(socket) {
 // STRONA LOGOWANIA
 app.get('/login', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/login.html";
+		page = "public/login.html";
 	} else {
-		var page = "public/index.html";
+		page = "public/index.html";
 	}
 
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // STRONA REJESTRACJI
 app.get('/signup', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
+
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/signup.html";
+		page = "public/signup.html";
 	} else {
-		var page = "public/index.html";
+		page = "public/index.html";
 	}
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // STRONA DODAJ MIEJSCE
 app.get('/addplace', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
 
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/index.html"
+		page = "public/index.html";
 	} else {
-		var page = "public/addplace.html";
+		page = "public/addplace.html";
 	}
 
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // STRONA DODAJ WYDARZENIE
 app.get('/addevent', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
+
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/index.html"
+		page = "public/index.html";
 	} else {
-		var page = "public/addevent.html";
+		page = "public/addevent.html";
 	}
 
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // STRONA POKAZ MIEJSCA
 app.get('/showplaces', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/index.html"
+		page = "public/index.html";
 	} else {
-		var page = "public/showplaces.html";
+		page = "public/showplaces.html";
 	}
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // STRONA POKAZ WYDARZENIA
 app.get('/showevents', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/index.html"
+		page = "public/index.html";
 	} else {
-		var page = "public/showevents.html";
+		page = "public/showevents.html";
 	}
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // STRONA JEDNEGO WYDARZENIA
 app.get('/showevents/:event', function(req, res) {
 	
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/index.html"
+		page = "public/index.html";
 	} else {
-		var page = "public/event.html";
+		page = "public/event.html";
 	}
 
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 
 // STRONA JEDNEGO MIEJSCA
 app.get('/showplaces/:place', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
+	var page;
 	if(sessionJSON.passport.user === undefined) {
-		var page = "public/index.html"
+		page = "public/index.html";
 	} else {
-		var page = "public/place.html";
+		page = "public/place.html";
 	}
 	
 	res.sendfile(page, {
 		root: __dirname
-	})
+	});
 });
 
 // LOGOWANIE
@@ -271,7 +290,7 @@ app.get('/checkIfEventExists/:name', function(req, res) {
  	console.log(name);
 	redisGetPlace(name).then(function(result) {
 		res.json({exist: result});
-	})
+	});
 });
 
 // SPRAWDZ CZY TAKIE MIEJSCE JEST W BAZIE
@@ -280,7 +299,7 @@ app.get('/checkIfPlaceExists/:name', function(req, res) {
  	console.log(name);
 	redisGetPlace(name).then(function(result) {
 		res.json({exist: result});
-	})
+	});
 });
 
 // SPRAWDZ CZY TAKI USERNAME JEST W BAZIE
@@ -288,12 +307,12 @@ app.get('/checkIfUserExists/:username', function(req, res) {
  	var username = req.params.username;
 	redisGet(username).then(function(result) {
 		res.json({exist: result});
-	})
+	});
 });
 
 // WYLOGOWYWANIE
 app.get('/logout', function(req, res) {
-	console.log('Wylogowanie...')
+	console.log('Wylogowanie...');
 	req.logout();
 	loggedIn = false;
 	res.redirect('/');
@@ -303,7 +322,7 @@ app.get('/logout', function(req, res) {
 app.get('/loggedIn', function(req, res) {
 	var sessionJSON = JSON.parse(sessionStore.sessions[req.sessionID]);
 	
-	res.json({username: sessionJSON.passport.user.username})
+	res.json({username: sessionJSON.passport.user.username});
 });
 
 
@@ -345,7 +364,7 @@ var redisSignUpUser = function(username, eventName) {
 		client.rpush(eventName+"-users", username, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
-}
+};
 
 
 // FUNKCJA USTAWIAJACA UZYTKOWNIKA DO BAZY REDISA
@@ -354,7 +373,7 @@ var redisSetUser = function(username, password) {
 		client.set(username, password, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
-	}
+	};
 // FUNKCJA DODAJACA MIEJSCE DO BAZY REDISA
 var redisSetPlace = function(name, city, street, number) {
 		console.log("Dodaje do bazy miejsce: " + name + " " + city + " " + street + " " + number);
@@ -375,7 +394,7 @@ var redisSetPlace = function(name, city, street, number) {
 		client.rpush("places", name, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
-}
+};
 
 // FUNKCJA DODAJACA WYDARZENIE DO BAZY REDISA
 var redisSetEvent = function(name, place, date, time) {
@@ -397,7 +416,7 @@ var redisSetEvent = function(name, place, date, time) {
 		client.rpush("events", name, function(err, reply) {
 			console.log("REPLY SET: " + reply.toString());
 		});
-}
+};
 
 // FUNKCJA POBIERAJACA MIEJSCE Z BAZY REDISA DO SPRAWDZENIA CZY TAKIE MIEJSCE JEST W BAZIE
 var redisGetPlace = function(name) {

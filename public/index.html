@@ -32,10 +32,10 @@
           <a class="navbar-brand" href="/">MeetMe</a>
           <ul class="nav navbar-nav">
             <li data-ng-hide="connected" class="bulb">
-              <img src="img/bullet_red.png">
+              <img src="img/bullet_red.png" alt="red" />
             </li>
             <li data-ng-show="connected" class="bulb">
-              <img src="img/bullet_green.png">
+              <img src="img/bullet_green.png" alt="green" />
             </li>
           </ul>
         </div>  <!-- /.navbar header -->
@@ -85,11 +85,7 @@
     Diodka koło loga informuje o tym, czy jesteśmy połączeni z serwerem przez socket.<br />
     Użyta baza danych to <a href="http://redis.io/">Redis</a>.</p>
   
-    <!--  -->
-    <div ng-init="locationData = '<?=htmlspecialchars($data)?>'">
-      <google-map center="map.center" zoom="map.zoom" options="map.options"></google-map>
-    </div>
-    <!--  -->
+ 
 
   </div>
 

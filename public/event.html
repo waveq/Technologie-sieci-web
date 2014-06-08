@@ -31,15 +31,14 @@
           <a class="navbar-brand" href="/">MeetMe</a>
           <ul class="nav navbar-nav">
             <li data-ng-hide="connected" class="bulb">
-              <img src="/img/bullet_red.png">
+              <img src="/img/bullet_red.png" alt="red">
             </li>
             <li data-ng-show="connected" class="bulb">
-              <img src="/img/bullet_green.png">
+              <img src="/img/bullet_green.png" alt="green">
             </li>
           </ul>
-    </div>  <!-- /.navbar header
+    </div>  
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav" data-ng-show="loggedIn">
        <li class="dropdown">
@@ -81,7 +80,7 @@
    <tr><th>Nazwa</th><th>Miejsce</th><th>Data</th><th>Godzina</th></tr>
    <tr>
     <td>{{name}}</td>
-   <td><a href="/showplaces/{{place}}">{{place}}</td>
+   <td><a href="/showplaces/{{place}}">{{place}}</a></td>
    <td>{{date}}</td>
    <td>{{time}}</td>
    </tr>
@@ -99,7 +98,7 @@
   </div>
 
 
-  <button ng-click="signUp()" data-ng-disabled="buttonDisabled" class="btn btn-success">Zapisz się</button>
+  <button data-ng-click="signUp()" data-ng-disabled="buttonDisabled" class="btn btn-success" >Zapisz się</button>
 
 
 </div>

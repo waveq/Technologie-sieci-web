@@ -28,7 +28,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
             var url = window.location.pathname;
             var eventName = url.substr(12);
             return eventName;
-        }
+        };
 
 
  
@@ -70,7 +70,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     socket.emit('signUp', $scope.username);
                 }
             });
-        }
+        };
 
         $scope.getSignedUsers = function () {
             var myUrl="/getSignedUsers/"+$scope.name;
@@ -86,7 +86,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     });
                 }
             });
-        }
+        };
         
         $scope.checkIfSigned = function() {
             var myUrl="/getSignedUsers/"+$scope.name;
@@ -107,11 +107,11 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     });
                 }
             });
-        }
+        };
         
 
       var checkIfLoggedIn = function() {
-            var myUrl = "/loggedIn"
+            var myUrl = "/loggedIn";
             $.ajax({
                 url: myUrl,
                 type: 'GET',
@@ -126,7 +126,7 @@ app.controller('appCtrlr', ['$scope', 'socket',
                     }); 
                 } 
             });
-        }
+        };
         checkIfLoggedIn();  
 
   
